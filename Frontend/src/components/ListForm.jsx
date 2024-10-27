@@ -1,8 +1,9 @@
 import { useState, useEffect, useContext } from "react";
-import { colorContext } from "../../context/context";
+import { colorContext, urlContext } from "../../context/context";
 
 const ListForm = (props) => {
   const appColors = useContext(colorContext);
+  const baseUrl = useContext(urlContext);
 
   const initialValues = {
     name: "",
@@ -68,7 +69,12 @@ const ListForm = (props) => {
       errors.company = "Company name is required!";
     }
 
-    const validImageTypes = ["image/jpeg", "image/png", "image/gif"];
+    const validImageTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+    ];
     if (!values.image) {
       errors.image = "Product image is required!";
     } else if (!validImageTypes.includes(values.image.type)) {
@@ -100,7 +106,7 @@ const ListForm = (props) => {
     formData.append("image", formValues.image);
 
     try {
-      const response = await fetch("http://localhost:5000/api/v1/products", {
+      const response = await fetch(`${baseUrl}/api/v1/products`, {
         method: "POST",
         body: formData, // Send as FormData (multipart/form-data)
       });

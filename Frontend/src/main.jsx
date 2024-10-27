@@ -6,7 +6,7 @@ import App from "./App.jsx";
 import List from "./listProduct.jsx";
 import NotFoundPage from "./notFoundPage.jsx";
 import Delete from "./DeleteProduct";
-import { colorContext } from "../context/context.js";
+import { colorContext, urlContext } from "../context/context.js";
 
 import "./index.css";
 
@@ -45,9 +45,13 @@ const Main = () => {
   ]);
 
   return (
-    <colorContext.Provider value={{ appTheme, setAppTheme, bgColor, fgColor }}>
-      <RouterProvider router={router} />
-    </colorContext.Provider>
+    <urlContext.Provider value="https://the-store-app.vercel.app/">
+      <colorContext.Provider
+        value={{ appTheme, setAppTheme, bgColor, fgColor }}
+      >
+        <RouterProvider router={router} />
+      </colorContext.Provider>
+    </urlContext.Provider>
   );
 };
 

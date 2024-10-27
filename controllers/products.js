@@ -63,7 +63,7 @@ const getAllProducts = async (req, res) => {
     }
 
 
-    let limit = 10;
+    let limit = 3;
     if (req.query.limit) {
         if (isFinite(req.query.limit)) {
             limit = Number(req.query.limit);
@@ -125,18 +125,9 @@ const getAllProducts = async (req, res) => {
     try {
         let products = await ProductsModel.find(searchQuery).sort(sortby).limit(limit).skip((page - 1) * limit).select(select);
 
-        // Map over products to convert buffer data to base64
-        const productsWithImages = products.map((product) => {
-            if (product.image && product.image.data) {
-                return {
-                    ...product._doc,
-                    image: `data:${product.image.contentType};base64,${product.image.data.toString('base64')}`
-                };
-            }
-            return product;
-        });
+        const totalHits = await ProductsModel.countDocuments(searchQuery);
 
-        res.status(200).json({ products: productsWithImages, nbHits: productsWithImages.length });
+        res.status(200).json({ products: products, pageLimit: limit, nbHits: products.length, totalHits: totalHits });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

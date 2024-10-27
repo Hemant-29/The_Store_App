@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { colorContext } from "../context/context";
+import { colorContext, urlContext } from "../context/context";
 
 import AllProducts from "./components/AllProducts";
 import TitleBar from "./components/TitleBar";
@@ -7,12 +7,13 @@ import Footer from "./components/Footer";
 
 const DeleteProduct = () => {
   const appColors = useContext(colorContext);
+  const baseUrl = useContext(urlContext);
 
   const [sort, setSort] = useState("name");
   const [sort_order, setSort_order] = useState("");
   const [page, setPage] = useState(1);
   const [url, setUrl] = useState(
-    `http://localhost:5000/api/v1/products?page=${page}&sortby=${sort_order + sort}`
+    `${baseUrl}/api/v1/products?page=${page}&sortby=${sort_order + sort}`
   );
 
   return (

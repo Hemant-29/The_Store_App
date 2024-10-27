@@ -5,7 +5,9 @@ import { colorContext } from "../../context/context";
 function AllProducts(props) {
   const appColors = useContext(colorContext);
   const [ApiData, setApiData] = useState(["None"]);
-  const [productCount, setProductCount] = useState(0);
+  const [pageProductCount, setPageProductCount] = useState(0);
+  const [totalProductCount, setTotalProductCount] = useState(0);
+  const [pageLimit, setPageLimit] = useState(0);
 
   useEffect(() => {
     fetch(props.url)
@@ -14,31 +16,31 @@ function AllProducts(props) {
       })
       .then((data) => {
         setApiData(data.products);
-        setProductCount(data.nbHits);
+        setPageProductCount(data.nbHits);
+        setTotalProductCount(data.totalHits);
+        setPageLimit(data.pageLimit);
       });
   }, [props.url]); //Fetch Products from the API whenever the url changes
 
   function addPage() {
-    props.setPage((page) => {
-      return page + 1;
-    });
+    console.log(props.page, totalProductCount, pageLimit);
+    if (props.page < Math.ceil(totalProductCount / pageLimit)) {
+      props.setPage((page) => page + 1);
+    }
   }
 
-  function reducePage() {
-    props.setPage((page) => {
-      if (page > 1) {
-        return page - 1;
-      }
-      return page;
-    });
-  }
+  const reducePage = () => {
+    if (props.page > 1) {
+      props.setPage((page) => page - 1);
+    }
+  };
 
   return (
     <>
       <div className="top-0 w-full p-8">
         <div className="flex justify-between my-4">
           <p className={`text-${appColors.fgColor} p-2`}>
-            {productCount} Products Found
+            {pageProductCount} Products Found
           </p>
           <p className={`text-${appColors.fgColor} p-3`}>Page - {props.page}</p>
           <div className="flex flex-col sm:flex-row gap-4 p-2">

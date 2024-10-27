@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { colorContext } from "../context/context";
+import { colorContext, urlContext } from "../context/context";
 
 import "./App.css";
 
@@ -17,8 +17,10 @@ function App() {
   const [page, setPage] = useState(1);
   const [minPrice, setMinPrice] = useState(100);
   const [maxPrice, setMaxPrice] = useState(10000);
+
+  const baseUrl = useContext(urlContext);
   const [url, setUrl] = useState(
-    `http://localhost:5000/api/v1/products?page=${page}&sortby=${sort_order + sort}`
+    `${baseUrl}/api/v1/products?page=${page}&sortby=${sort_order + sort}`
   );
 
   const appColors = useContext(colorContext);
@@ -26,7 +28,7 @@ function App() {
   useEffect(() => {
     // console.log(url);
     setUrl(
-      `http://localhost:5000/api/v1/products?name=${search}&page=${page}&company=${company}&sortby=${sort_order + sort}&numericfilters=price<${maxPrice},rating>=${rating}`
+      `${baseUrl}/api/v1/products?name=${search}&page=${page}&company=${company}&sortby=${sort_order + sort}&numericfilters=price<${maxPrice},rating>=${rating}`
     );
   }, [page, sort, sort_order, company, minPrice, maxPrice, rating, search]); // Trigger URL update when page, sort, etc. changes
 
