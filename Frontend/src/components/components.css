@@ -1,0 +1,37 @@
+h3 {
+  font-size: 18px !important;
+  font-weight: 600 !important;
+}
+
+#rating_buttons > button {
+  padding: 1px 5px;
+  /* border: 1.5px solid rgb(0, 0, 0); */
+  /* border-radius: 0.5rem; */
+}
+
+/* #rating_buttons>button:hover {
+  background-color: rgba(255, 255, 38, 0.271);
+} */
+
+#listingForm > input {
+  border: 1px solid #d1d5db;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+#listingForm > select {
+  border: 1px solid #d1d5db;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+#productImage {
+  /* border: 1px solid #d1d5db; */
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+#listingForm > input:focus {
+  border-color: #3b82f6 !important;
+}
+

@@ -1,0 +1,31 @@
+{
+  "name": "project_store",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "cloudinary": "^2.5.1",
+    "cors": "^2.8.5",
+    "dom": "^0.0.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-async-errors": "^3.1.1",
+    "form-data": "^4.0.1",
+    "fs": "^0.0.1-security",
+    "mongoose": "^8.7.1",
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^3.1.7",
+    "path": "^0.12.7",
+    "react": "^18.3.1",
+    "react-router-dom": "^6.27.0",
+    "router": "^2.0.0"
+  }
+}
