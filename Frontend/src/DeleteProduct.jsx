@@ -16,6 +16,13 @@ const DeleteProduct = () => {
     `${baseUrl}/api/v1/products?page=${page}&sortby=${sort_order + sort}`
   );
 
+  useEffect(() => {
+    console.log("page in delete file:", page);
+    setUrl(
+      `${baseUrl}/api/v1/products?page=${page}&sortby=${sort_order + sort}`
+    );
+  }, [page]);
+
   return (
     <>
       <div className={appColors.bgColor}>

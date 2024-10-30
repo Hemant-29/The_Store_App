@@ -45,7 +45,8 @@ const Main = () => {
   ]);
 
   return (
-    <urlContext.Provider value="https://the-store-app.vercel.app">
+    // <urlContext.Provider value="https://the-store-app.vercel.app">
+    <urlContext.Provider value="http://localhost:5000">
       <colorContext.Provider
         value={{ appTheme, setAppTheme, bgColor, fgColor }}
       >

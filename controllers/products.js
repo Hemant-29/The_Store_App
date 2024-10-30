@@ -138,8 +138,9 @@ const addProduct = async (req, res) => {
         let { name, price, featured, company } = req.body;
 
         // Upload image to Cloudinary
-        const cloudImage = await cloudinaryUpload(req.file.path);
+        console.log("Multer File Path:", req.file.path);
         console.log("Cloudinary file path: ", cloudImage.secure_url);
+        const cloudImage = await cloudinaryUpload(req.file.path);
 
         // Create a new product with the Cloudinary image link
         const product = ProductsModel.create({

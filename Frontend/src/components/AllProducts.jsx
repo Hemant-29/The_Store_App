@@ -40,7 +40,7 @@ function AllProducts(props) {
       <div className="top-0 w-full p-8">
         <div className="flex justify-between my-4">
           <p className={`text-${appColors.fgColor} p-2`}>
-            {pageProductCount} Products Found
+            {totalProductCount} Products Found
           </p>
           <p className={`text-${appColors.fgColor} p-3`}>Page - {props.page}</p>
           <div className="flex flex-col sm:flex-row gap-4 p-2">

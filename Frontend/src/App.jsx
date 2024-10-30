@@ -26,7 +26,7 @@ function App() {
   const appColors = useContext(colorContext);
 
   useEffect(() => {
-    // console.log(url);
+    console.log(url);
     setUrl(
       `${baseUrl}/api/v1/products?name=${search}&page=${page}&company=${company}&sortby=${sort_order + sort}&numericfilters=price<${maxPrice},rating>=${rating}`
     );

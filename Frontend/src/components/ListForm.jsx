@@ -112,7 +112,11 @@ const ListForm = (props) => {
       });
       const result = await response.json();
       console.log("Product added:", result);
-      setSubmitSucess(true);
+      if (result.product) {
+        setSubmitSucess(true);
+      } else {
+        setSubmitSucess(false);
+      }
     } catch (error) {
       console.error("Error uploading product:", error);
       setSubmitSucess(false);

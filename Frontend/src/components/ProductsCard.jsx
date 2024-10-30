@@ -5,10 +5,12 @@ import { colorContext, urlContext } from "../../context/context";
 import starImage from "../assets/star.svg";
 
 function ProductsCard(props) {
+  const hostName = useContext(urlContext);
+
   const deleteProduct = async (productID) => {
     try {
       const response = await axios.delete(
-        `${urlContext}/api/v1/products/${productID}`
+        `${hostName}/api/v1/products/${productID}`
       );
       console.log("Product deleted:", response.data);
       location.reload();
