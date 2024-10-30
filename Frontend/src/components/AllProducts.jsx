@@ -42,6 +42,18 @@ function AllProducts(props) {
           <p className={`text-${appColors.fgColor} p-2`}>
             {totalProductCount} Products Found
           </p>
+          <div className="flex items-center">
+            <p className={`text-${appColors.fgColor} p-2`}>Items per page</p>
+            <input
+              type="number"
+              name="itemsPerPage"
+              id="itemsPerPage"
+              className="w-10 h-6 rounded m-2 pl-2"
+              onChange={(evt) => {
+                props.setItemsLimit(evt.target.value);
+              }}
+            />
+          </div>
           <p className={`text-${appColors.fgColor} p-3`}>Page - {props.page}</p>
           <div className="flex flex-col sm:flex-row gap-4 p-2">
             <p className={`text-${appColors.fgColor}`}>Sort By</p>

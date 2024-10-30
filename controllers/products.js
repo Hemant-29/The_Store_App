@@ -63,7 +63,7 @@ const getAllProducts = async (req, res) => {
     }
 
 
-    let limit = 3;
+    let limit = 10;
     if (req.query.limit) {
         if (isFinite(req.query.limit)) {
             limit = Number(req.query.limit);

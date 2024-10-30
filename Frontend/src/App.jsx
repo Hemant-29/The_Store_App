@@ -17,10 +17,11 @@ function App() {
   const [page, setPage] = useState(1);
   const [minPrice, setMinPrice] = useState(100);
   const [maxPrice, setMaxPrice] = useState(10000);
+  const [itemsLimit, setItemsLimit] = useState(10);
 
   const baseUrl = useContext(urlContext);
   const [url, setUrl] = useState(
-    `${baseUrl}/api/v1/products?page=${page}&sortby=${sort_order + sort}`
+    `${baseUrl}/api/v1/products?page=${page}&limit=${itemsLimit}&sortby=${sort_order + sort}`
   );
 
   const appColors = useContext(colorContext);
@@ -28,9 +29,19 @@ function App() {
   useEffect(() => {
     console.log(url);
     setUrl(
-      `${baseUrl}/api/v1/products?name=${search}&page=${page}&company=${company}&sortby=${sort_order + sort}&numericfilters=price<${maxPrice},rating>=${rating}`
+      `${baseUrl}/api/v1/products?name=${search}&page=${page}&limit=${itemsLimit}&company=${company}&sortby=${sort_order + sort}&numericfilters=price<${maxPrice},rating>=${rating}`
     );
-  }, [page, sort, sort_order, company, minPrice, maxPrice, rating, search]); // Trigger URL update when page, sort, etc. changes
+  }, [
+    page,
+    sort,
+    sort_order,
+    company,
+    minPrice,
+    maxPrice,
+    rating,
+    search,
+    itemsLimit,
+  ]); // Trigger URL update when page, sort, etc. changes
 
   return (
     <>
@@ -60,6 +71,7 @@ function App() {
           url={url}
           setUrl={setUrl}
           visible={{ rating: true, price: true }}
+          setItemsLimit={setItemsLimit}
         ></AllProducts>
       </div>
       <Footer></Footer>
