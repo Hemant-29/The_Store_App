@@ -10,6 +10,7 @@ require('express-async-errors');
 // Requires
 const connectDB = require("./db/connect")
 const productsRouter = require('./routes/products')
+const usersRouter = require('./routes/users')
 
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, "Frontend/dist")));
 
 
 app.use('/api/v1/products', productsRouter)
+app.use('/api/v1/user', usersRouter)
 
 // Error Middlewares
 app.use(notFoundMiddleware);

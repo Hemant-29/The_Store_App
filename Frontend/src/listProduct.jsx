@@ -10,7 +10,7 @@ const upload = () => {
   return (
     <>
       <div className={appColors.bgColor}>
-        <TitleBar></TitleBar>
+      <TitleBar></TitleBar>
         <h2 className="bg-orange-100 flex h-14 items-center pl-9 py-20 text-3xl w-screen  mt-48 sm:mt-0">
           List A Product on Website
         </h2>
@@ -21,8 +21,8 @@ const upload = () => {
           <h2 className="text-xl p-5">Enter Your Product Details</h2>
           <ListForm></ListForm>
         </main>
-      </div>
       <Footer></Footer>
+      </div>
     </>
   );
 };

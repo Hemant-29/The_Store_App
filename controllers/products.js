@@ -7,17 +7,17 @@ const getAllProductsStatic = async (req, res) => {
         const products = await ProductsModel.find();
 
         // Map over products to convert buffer data to base64
-        const productsWithImages = products.map((product) => {
-            if (product.image && product.image.data) {
-                return {
-                    ...product._doc,
-                    image: `data:${product.image.contentType};base64,${product.image.data.toString('base64')}`
-                };
-            }
-            return product;
-        });
+        // const productsWithImages = products.map((product) => {
+        //     if (product.image && product.image.data) {
+        //         return {
+        //             ...product._doc,
+        //             image: `data:${product.image.contentType};base64,${product.image.data.toString('base64')}`
+        //         };
+        //     }
+        //     return product;
+        // });
 
-        res.status(200).json({ products: productsWithImages, nbHits: productsWithImages.length });
+        res.status(200).json({ products: products, nbHits: products.length });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -135,9 +135,6 @@ const getAllProducts = async (req, res) => {
 
 const addProduct = async (req, res) => {
     try {
-        let { name, price, featured, company } = req.body;
-
-        // Log the image buffer to verify it's being passed
         // console.log("Multer File Buffer:", req.file.buffer);
 
         // Upload image buffer to Cloudinary

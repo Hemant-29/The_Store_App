@@ -46,6 +46,7 @@ function AllProducts(props) {
             <p className={`text-${appColors.fgColor} p-2`}>Items per page</p>
             <input
               type="number"
+              defaultValue="10"
               name="itemsPerPage"
               id="itemsPerPage"
               className="w-10 h-6 rounded m-2 pl-2"
