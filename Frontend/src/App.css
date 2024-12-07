@@ -2,3 +2,20 @@
   margin: 0;
   padding: 0;
 }
+
+button {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.05s ease-in-out,
+    box-shadow 0.05s ease-in-out;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+.horizontal_ruler {
+  border: 1px solid #0002;
+  width: 85%;
+  margin: 20px;
+}

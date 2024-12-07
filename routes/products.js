@@ -2,14 +2,13 @@ const express = require('express');
 const router = express.Router();
 const upload = require('../middleware/multer.middleware.js');
 
-const { getAllProducts, getAllProductsStatic, addProduct, deleteProduct } = require('../controllers/products');
+const { getProduct, getAllProducts, getAllProductsStatic, buyProduct } = require('../controllers/products');
 
+router.route('/single/:id').get(getProduct);
 router.route('/').get(getAllProducts);
 router.route('/static').get(getAllProductsStatic);
-// Use Multer middleware to handle file uploads in the POST route
-router.route('/').post(upload.single('image'), addProduct);
 
-router.route('/:id').delete(deleteProduct);
-
+// Buy a Product
+// router.route('/buy/:productID').post(buyProduct);
 
 module.exports = router;

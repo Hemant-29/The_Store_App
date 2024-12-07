@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 const TitleBar = () => {
   const [modeIcon, setModeIcon] = useState(lightModeIcon);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [userType, setUserType] = useState(false);
   const { appTheme, setAppTheme } = useContext(colorContext);
 
   const changeAppTheme = () => {
@@ -20,7 +21,9 @@ const TitleBar = () => {
   }, [appTheme]);
 
   useEffect(() => {
-    const expiry = sessionStorage.getItem("tokenExpiry");
+    const expiry = localStorage.getItem("tokenExpiry");
+    const type = localStorage.getItem("userType");
+
     if (expiry) {
       const currentTime = Date.now() / 1000; // Convert to seconds
       const expiryTime = expiry - currentTime;
@@ -33,6 +36,18 @@ const TitleBar = () => {
     } else {
       console.log("logged out");
       setLoggedIn(false);
+    }
+
+    if (type) {
+      if (type == "user") {
+        setUserType("user");
+      } else if (type == "seller") {
+        setUserType("seller");
+      } else {
+        setUserType(false);
+      }
+    } else {
+      setUserType(false);
     }
   }, []);
 
@@ -68,21 +83,31 @@ const TitleBar = () => {
               Delete Product
             </Link> */}
 
-            <Link to="/Cart" className="text-lg font-medium sm:ml-auto p-3">
-              Favorites
+            <Link
+              to="/user/wishlist"
+              className="text-lg font-medium sm:ml-auto p-3"
+            >
+              WishList
             </Link>
 
-            <Link to="/Cart" className="text-lg font-medium p-3">
+            <Link to="/user/cart" className="text-lg font-medium p-3">
               Cart
             </Link>
 
-            <Link to="/user" className="text-lg font-medium p-3">
-              User
-            </Link>
+            {userType == "user" && (
+              <Link to="/user" className="text-lg font-medium p-3">
+                User
+              </Link>
+            )}
+            {userType == "seller" && (
+              <Link to="/seller" className="text-lg font-medium p-3">
+                Seller
+              </Link>
+            )}
           </>
         )}
 
-        <button onClick={changeAppTheme}>
+        <button onClick={changeAppTheme} className="shadow-none rounded-lg">
           <img src={modeIcon} alt="Change Mode" className="p-3" width="50px" />
         </button>
       </div>

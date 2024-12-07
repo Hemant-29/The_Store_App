@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cookieParser = require('cookie-parser');
 
 const cors = require('cors');
 const path = require('path');
@@ -11,6 +12,7 @@ require('express-async-errors');
 const connectDB = require("./db/connect")
 const productsRouter = require('./routes/products')
 const usersRouter = require('./routes/users')
+const sellersRouter = require('./routes/sellers');
 
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
@@ -22,7 +24,15 @@ const port = 5000 || process.env.PORT;
 
 // Middlewares
 app.use(express.json());
-app.use(cors()); // Enable CORS for all routes
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true })); // For parsing URL-encoded data
+
+const corsOptions = {
+    origin: 'http://localhost:5173', // Replace with your frontend's URL
+    credentials: true, // Allow cookies to be sent
+};
+
+app.use(cors(corsOptions)); // Enable CORS for all routes
 
 // Serving Static files
 app.use(express.static(path.join(__dirname, "Frontend/dist")));
@@ -30,6 +40,7 @@ app.use(express.static(path.join(__dirname, "Frontend/dist")));
 
 app.use('/api/v1/products', productsRouter)
 app.use('/api/v1/user', usersRouter)
+app.use('/api/v1/seller', sellersRouter)
 
 // Error Middlewares
 app.use(notFoundMiddleware);

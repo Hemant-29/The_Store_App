@@ -95,7 +95,7 @@ function LeftSidebar(props) {
         <h3 className={`text-${appColors.fgColor}`}>Rating</h3>
         <div id="rating_buttons" className="flex gap-3 justify-center">
           {ratingsArray.map((rating, index) => (
-            <button type="button" key={index}>
+            <button type="button" key={index} className="rounded-lg">
               {/* {String(index + 1)} */}
               <svg
                 width="25px"

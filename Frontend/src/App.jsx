@@ -21,7 +21,7 @@ function App() {
 
   const baseUrl = useContext(urlContext);
   const [url, setUrl] = useState(
-    `${baseUrl}/api/v1/products?page=${page}&limit=${itemsLimit}&sortby=${sort_order + sort}`
+    `${baseUrl}/api/v1/seller/products?page=${page}&limit=${itemsLimit}&sortby=${sort_order + sort}`
   );
 
   const appColors = useContext(colorContext);
@@ -29,7 +29,7 @@ function App() {
   useEffect(() => {
     console.log(url);
     setUrl(
-      `${baseUrl}/api/v1/products?name=${search}&page=${page}&limit=${itemsLimit}&company=${company}&sortby=${sort_order + sort}&numericfilters=price<${maxPrice},rating>=${rating}`
+      `${baseUrl}/api/v1/seller/products?name=${search}&page=${page}&limit=${itemsLimit}&company=${company}&sortby=${sort_order + sort}&numericfilters=price<${maxPrice},rating>=${rating}`
     );
   }, [
     page,

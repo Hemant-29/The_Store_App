@@ -1,14 +1,19 @@
+import { useContext } from "react";
 import fb_icon from "../assets/facebook.png";
 import twitter_icon from "../assets/twitter.png";
 import google_icon from "../assets/google.png";
 import insta_icon from "../assets/insta.png";
+import { colorContext } from "../../context/context";
 
 function Footer(props) {
   const currentYear = new Date().getFullYear();
+  const appColors = useContext(colorContext);
 
   return (
     <>
-      <div className="bg-neutral-100 w-full text-black">
+      <div
+        className={`${appColors.footerColor} text-${appColors.fgColor} w-full text-black`}
+      >
         <div></div>
         <div className="text-center py-8 ">
           <p>Made with ❤️ in India</p>

@@ -4,7 +4,7 @@ import { colorContext, urlContext } from "../context/context";
 import TitleBar from "./components/TitleBar";
 import Footer from "./components/Footer";
 
-const UserPage = () => {
+const SellerProfilePage = () => {
   const [userDetail, setUserDetail] = useState(null);
   const [message, setMessage] = useState(null);
 
@@ -16,14 +16,14 @@ const UserPage = () => {
   const getUserDetail = async () => {
     try {
       const token = sessionStorage.getItem("accessToken"); // Retrieve the token each time
-      const response = await axios.get(`${baseUrl}/api/v1/user/`, {
+      const response = await axios.get(`${baseUrl}/api/v1/seller/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
       if (response.status === 200) {
-        setUserDetail(response.data.user);
+        setUserDetail(response.data.seller);
       } else {
         setUserDetail(false); // Explicitly set to false if user data is not retrieved
       }
@@ -35,6 +35,16 @@ const UserPage = () => {
         setMessage("Failed to connect to the server");
       }
     }
+  };
+
+  const logout = async () => {
+    const currentTime = Date.now() / 1000;
+    localStorage.setItem("tokenExpiry", currentTime);
+
+    // Reload Window after logout
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 500);
   };
 
   useEffect(() => {
@@ -60,7 +70,10 @@ const UserPage = () => {
           </div>
 
           {userDetail && <div>Welcome, {userDetail.username}!</div>}
-          <button className="bg-orange-100 rounded-md w-56 p-2 my-4 mx-4 text-black">
+          <button
+            onClick={logout}
+            className="bg-orange-100 rounded-md w-56 p-2 my-4 mx-4 text-black"
+          >
             Logout
           </button>
         </div>
@@ -70,4 +83,4 @@ const UserPage = () => {
   );
 };
 
-export default UserPage;
+export default SellerProfilePage;

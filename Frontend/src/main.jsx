@@ -1,7 +1,11 @@
 // Importing Libraries
 import { StrictMode, useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useParams,
+} from "react-router-dom";
 
 // Importing Various Pages and Components
 import App from "./App.jsx";
@@ -13,8 +17,14 @@ import { colorContext, urlContext } from "../context/context.js";
 
 // Importing CSS File
 import "./index.css";
-import UserPage from "./UserPage.jsx";
 import UserSignup from "./userSignup.jsx";
+import SellerLogin from "./SellerLogin.jsx";
+import SellerSignup from "./SellerSignup.jsx";
+import UserProfilePage from "./UserProfilePage.jsx";
+import SellerProfilePage from "./SellerProfilePage.jsx";
+import ProductPage from "./ProductPage.jsx";
+import CartPage from "./CartPage.jsx";
+import WishListPage from "./WishListPage.jsx";
 
 // Main Function with all the logic
 const Main = () => {
@@ -23,15 +33,18 @@ const Main = () => {
   );
   const [bgColor, setBgColor] = useState("");
   const [fgColor, setFgColor] = useState("");
+  const [footerColor, setFooterColor] = useState("");
 
   useEffect(() => {
     if (appTheme == "light") {
       setBgColor("bg-slate-50");
       setFgColor("black");
+      setFooterColor("bg-neutral-100");
     }
     if (appTheme == "dark") {
-      setBgColor("bg-slate-800");
+      setBgColor("bg-stone-700");
       setFgColor("white");
+      setFooterColor("bg-stone-800");
     }
   }, [appTheme]);
 
@@ -50,16 +63,40 @@ const Main = () => {
       element: <Delete />,
     },
     {
+      path: "/signup",
+      element: <UserSignup />,
+    },
+    {
+      path: "/signup/seller",
+      element: <SellerSignup />,
+    },
+    {
       path: "/login",
       element: <UserLogin />,
     },
     {
-      path: "/User",
-      element: <UserPage />,
+      path: "/login/seller",
+      element: <SellerLogin />,
     },
     {
-      path: "/signup",
-      element: <UserSignup />,
+      path: "/user",
+      element: <UserProfilePage />,
+    },
+    {
+      path: "/seller",
+      element: <SellerProfilePage />,
+    },
+    {
+      path: "/product/:id",
+      element: <ProductPage />,
+    },
+    {
+      path: "/user/cart",
+      element: <CartPage />,
+    },
+    {
+      path: "/user/wishlist",
+      element: <WishListPage />,
     },
   ]);
 
@@ -67,7 +104,7 @@ const Main = () => {
     // <urlContext.Provider value="https://the-store-app.vercel.app">
     <urlContext.Provider value="http://localhost:5000">
       <colorContext.Provider
-        value={{ appTheme, setAppTheme, bgColor, fgColor }}
+        value={{ appTheme, setAppTheme, bgColor, fgColor, footerColor }}
       >
         <RouterProvider router={router} />
       </colorContext.Provider>

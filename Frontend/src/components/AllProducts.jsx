@@ -1,13 +1,41 @@
 import { useState, useEffect, useContext } from "react";
 import ProductsCard from "./ProductsCard";
-import { colorContext } from "../../context/context";
+import { colorContext, urlContext } from "../../context/context";
+import axios from "axios";
 
 function AllProducts(props) {
+  // useContext
   const appColors = useContext(colorContext);
+  const baseUrl = useContext(urlContext);
+
+  // States
   const [ApiData, setApiData] = useState(["None"]);
   const [pageProductCount, setPageProductCount] = useState(0);
   const [totalProductCount, setTotalProductCount] = useState(0);
   const [pageLimit, setPageLimit] = useState(0);
+  const [favoritesList, setFavoritesList] = useState(0);
+
+  const fetchFavorites = async () => {
+    const response = await axios.get(`${baseUrl}/api/v1/user/wishlist`, {
+      withCredentials: true,
+    });
+
+    if (response) {
+      const wishlist = response.data.wishlist;
+      if (wishlist) {
+        let liked = wishlist.find((list) => list.listName === "liked");
+        if (liked) {
+          liked = liked.products;
+        }
+        setFavoritesList(liked);
+      }
+      // console.log("wishlist:", wishlist);
+    }
+  };
+
+  useEffect(() => {
+    fetchFavorites();
+  }, []);
 
   useEffect(() => {
     fetch(props.url)
@@ -100,6 +128,8 @@ function AllProducts(props) {
               rating={product.rating}
               id={product._id}
               visible={props.visible}
+              favorites={favoritesList}
+              fetchApi={fetchFavorites}
             />
           ))}
         </div>

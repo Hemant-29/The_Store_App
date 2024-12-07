@@ -1,23 +1,59 @@
-const ProductsModel = require('../models/product')
+const UsersModel = require('../models/users.js')
+const ProductsModel = require('../models/products.js')
+const SellersModel = require('../models/sellers')
 const cloudinaryUpload = require('../utils/cloudinary.js');
+const { response } = require('express');
+const axios = require('axios');
+
+const allProducts = async () => {
+    try {
+        const users = await SellersModel.find();
+
+        const products = users.flatMap(user => (user.products || [])
+            .map(product => {
+                return {
+                    ...product.toObject(),
+                    seller: user.username,
+                    sellerId: user._id
+                }
+            })
+        )
+
+        return products;
+    } catch (error) {
+        return null;
+    }
+}
+
+const getProduct = async (req, res) => {
+    try {
+        const products = await allProducts();
+
+        // Filter products based on the id provided in req.params.id 
+        const product = products.find(p => p._id.toString() === req.params.id)
+
+        res.status(200).json({ product: product });
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
 
 
 const getAllProductsStatic = async (req, res) => {
     try {
-        const products = await ProductsModel.find();
+        const users = await SellersModel.find();
 
-        // Map over products to convert buffer data to base64
-        // const productsWithImages = products.map((product) => {
-        //     if (product.image && product.image.data) {
-        //         return {
-        //             ...product._doc,
-        //             image: `data:${product.image.contentType};base64,${product.image.data.toString('base64')}`
-        //         };
-        //     }
-        //     return product;
-        // });
+        const products = users.flatMap(user => user.products || []);
 
-        res.status(200).json({ products: products, nbHits: products.length });
+        // const products = await ProductsModel.find();
+
+        if (products) {
+            return res.status(200).json({ products: products, nbHits: products.length });
+        }
+        res.status(400).json({ msg: "Products not found!" });
+
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -133,47 +169,34 @@ const getAllProducts = async (req, res) => {
     }
 }
 
-const addProduct = async (req, res) => {
-    try {
-        // console.log("Multer File Buffer:", req.file.buffer);
 
-        // Upload image buffer to Cloudinary
-        const cloudImage = await cloudinaryUpload(req.file.buffer);
+const buyProduct = async (req, res) => {
+    const productID = req.params.productID;
 
-        // Log the Cloudinary image URL
-        console.log("Cloudinary image URL:", cloudImage.secure_url);
+    const products = await allProducts();
 
+    // Filter products based on the id provided in req.params.id 
+    const product = products.find(p => p._id.toString() === productID)
 
-        // Create a new product with the Cloudinary image link
-        const product = ProductsModel.create({
-            name: req.body.name,
-            price: req.body.price,
-            company: req.body.company,
-            rating: req.body.rating,
-            featured: req.body.featured,
-            image: cloudImage.secure_url  // Cloudinary URL
-        });
+    if (product) {
+        const sellerID = product.sellerId;
+        const seller = await SellersModel.findById(sellerID);
+        if (seller) {
+            seller.orderedProducts.push(product);
 
-        res.status(201).json({ product });
-    } catch (error) {
-        console.error(error); // Log any errors to the console
-        res.status(500).json({ error: error.message });
+            await seller.save();
+
+            return res.status(200).json({ msg: "Product Bought", product: product.name, sellerSold: seller.orderedProducts })
+        }
+        return res.status(404).json({ msg: "seller not found!" });
+
     }
-};
-
-const deleteProduct = async (req, res) => {
-    try {
-        const result = await ProductsModel.deleteOne({ _id: req.params.id });
-        res.status(200).json({ result: result });
-    }
-    catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+    res.status(404).json({ msg: "Product Not found!" })
 }
 
 module.exports = {
+    getProduct,
     getAllProducts,
     getAllProductsStatic,
-    addProduct,
-    deleteProduct
+    buyProduct
 }
