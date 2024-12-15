@@ -14,6 +14,7 @@ function AllProducts(props) {
   const [totalProductCount, setTotalProductCount] = useState(0);
   const [pageLimit, setPageLimit] = useState(0);
   const [favoritesList, setFavoritesList] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchFavorites = async () => {
     const response = await axios.get(`${baseUrl}/api/v1/user/wishlist`, {
@@ -47,6 +48,9 @@ function AllProducts(props) {
         setPageProductCount(data.nbHits);
         setTotalProductCount(data.totalHits);
         setPageLimit(data.pageLimit);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, [props.url]); //Fetch Products from the API whenever the url changes
 
@@ -118,20 +122,25 @@ function AllProducts(props) {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-12">
-          {ApiData.map((product, index) => (
-            <ProductsCard
-              key={index}
-              name={product.name}
-              price={`${product.price}$`}
-              image={product.image}
-              rating={product.rating}
-              id={product._id}
-              visible={props.visible}
-              favorites={favoritesList}
-              fetchApi={fetchFavorites}
-            />
-          ))}
+        <div className="flex flex-wrap gap-12 ">
+          {isLoading ? (
+            <p className={`text-${appColors.fgColor} text-lg`}>Loading...</p>
+          ) : (
+            ApiData &&
+            ApiData.map((product, index) => (
+              <ProductsCard
+                key={index}
+                name={product.name}
+                price={`${product.price}$`}
+                image={product.image}
+                rating={product.rating}
+                id={product._id}
+                visible={props.visible}
+                favorites={favoritesList}
+                fetchApi={fetchFavorites}
+              />
+            ))
+          )}
         </div>
         <div className="flex gap-5 justify-center my-8">
           <button

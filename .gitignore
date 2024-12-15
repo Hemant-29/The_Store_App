@@ -15,3 +15,6 @@ yarn-error.log*
 tmp/
 cache/
 public
+
+# Ignore the node modules
+node_modules

@@ -9,22 +9,29 @@ import {
 
 // Importing Various Pages and Components
 import App from "./App.jsx";
-import List from "./listProduct.jsx";
-import NotFoundPage from "./notFoundPage.jsx";
-import Delete from "./DeleteProduct";
-import UserLogin from "./UserLogin.jsx";
-import { colorContext, urlContext } from "../context/context.js";
-
-// Importing CSS File
 import "./index.css";
-import UserSignup from "./userSignup.jsx";
-import SellerLogin from "./SellerLogin.jsx";
-import SellerSignup from "./SellerSignup.jsx";
-import UserProfilePage from "./UserProfilePage.jsx";
-import SellerProfilePage from "./SellerProfilePage.jsx";
-import ProductPage from "./ProductPage.jsx";
-import CartPage from "./CartPage.jsx";
-import WishListPage from "./WishListPage.jsx";
+// import List from "./listProduct.jsx";
+// import Delete from "./DeleteProduct";
+import NotFoundPage from "./pages/Other/notFoundPage.jsx";
+import ProductPage from "./pages/Product/ProductPage.jsx";
+
+// Import User pages
+import UserLogin from "./pages/User/UserLogin.jsx";
+import UserSignup from "./pages/User/UserSignup.jsx";
+import UserProfilePage from "./pages/User/UserProfilePage.jsx";
+import CartPage from "./pages/User/CartPage.jsx";
+import WishListPage from "./pages/User/WishListPage.jsx";
+
+// Importing Sellers Pages
+import SellerLogin from "./pages/seller/SellerLogin.jsx";
+import SellerSignup from "./pages/seller/SellerSignup.jsx";
+import SellerProfilePage from "./pages/seller/SellerProfilePage.jsx";
+import SellerHomePage from "./pages/seller/SellerHomePage.jsx";
+
+// Import Contexts
+import { colorContext, urlContext } from "../context/context.js";
+import SellerProductsPage from "./pages/seller/SellerProductsPage.jsx";
+import ListProduct from "./pages/seller/ListProduct.jsx";
 
 // Main Function with all the logic
 const Main = () => {
@@ -34,17 +41,23 @@ const Main = () => {
   const [bgColor, setBgColor] = useState("");
   const [fgColor, setFgColor] = useState("");
   const [footerColor, setFooterColor] = useState("");
+  const [titlebarColor, setTitlebarColor] = useState("");
+  const [headingbarColor, setHeadingbarColor] = useState("");
 
   useEffect(() => {
     if (appTheme == "light") {
       setBgColor("bg-slate-50");
       setFgColor("black");
       setFooterColor("bg-neutral-100");
+      setTitlebarColor("bg-sky-100 bg-opacity-35 backdrop-blur-md");
+      setHeadingbarColor("bg-violet-100");
     }
     if (appTheme == "dark") {
       setBgColor("bg-stone-700");
       setFgColor("white");
       setFooterColor("bg-stone-800");
+      setTitlebarColor("bg-sky-100 bg-opacity-20 backdrop-blur-md");
+      setHeadingbarColor("bg-violet-200");
     }
   }, [appTheme]);
 
@@ -54,37 +67,25 @@ const Main = () => {
       element: <App />,
       errorElement: <NotFoundPage />,
     },
-    {
-      path: "/upload",
-      element: <List />,
-    },
-    {
-      path: "/delete",
-      element: <Delete />,
-    },
+    // {
+    //   path: "/upload",
+    //   element: <List />,
+    // },
+    // {
+    //   path: "/delete",
+    //   element: <Delete />,
+    // },
     {
       path: "/signup",
       element: <UserSignup />,
-    },
-    {
-      path: "/signup/seller",
-      element: <SellerSignup />,
     },
     {
       path: "/login",
       element: <UserLogin />,
     },
     {
-      path: "/login/seller",
-      element: <SellerLogin />,
-    },
-    {
       path: "/user",
       element: <UserProfilePage />,
-    },
-    {
-      path: "/seller",
-      element: <SellerProfilePage />,
     },
     {
       path: "/product/:id",
@@ -98,13 +99,45 @@ const Main = () => {
       path: "/user/wishlist",
       element: <WishListPage />,
     },
+    {
+      path: "/seller",
+      element: <SellerHomePage />,
+    },
+    {
+      path: "/signup/seller",
+      element: <SellerSignup />,
+    },
+    {
+      path: "/login/seller",
+      element: <SellerLogin />,
+    },
+    {
+      path: "/seller/profile",
+      element: <SellerProfilePage />,
+    },
+    {
+      path: "/seller/products",
+      element: <SellerProductsPage></SellerProductsPage>,
+    },
+    {
+      path: "/seller/product/list",
+      element: <ListProduct></ListProduct>,
+    },
   ]);
 
   return (
     // <urlContext.Provider value="https://the-store-app.vercel.app">
     <urlContext.Provider value="http://localhost:5000">
       <colorContext.Provider
-        value={{ appTheme, setAppTheme, bgColor, fgColor, footerColor }}
+        value={{
+          appTheme,
+          setAppTheme,
+          bgColor,
+          fgColor,
+          footerColor,
+          titlebarColor,
+          headingbarColor,
+        }}
       >
         <RouterProvider router={router} />
       </colorContext.Provider>

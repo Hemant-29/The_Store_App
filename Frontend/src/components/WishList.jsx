@@ -3,6 +3,7 @@ import axios from "axios";
 import { colorContext, urlContext } from "../../context/context";
 import { Link, useParams } from "react-router-dom";
 import checkLogin from "../functions/checkLogin";
+import WarningCard from "./WarningCard";
 
 const WishList = () => {
   const appColors = useContext(colorContext);
@@ -10,32 +11,66 @@ const WishList = () => {
 
   const [wishlist, setWishlist] = useState([]);
   const [message, setMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const fetchWishList = async () => {
-    const response = await axios.get(`${baseUrl}/api/v1/user/wishlist`, {
-      withCredentials: true,
-    });
-    setMessage(response.data.msg);
-    setWishlist(response.data.wishlist);
+    try {
+      const response = await axios.get(`${baseUrl}/api/v1/user/wishlist`, {
+        withCredentials: true,
+      });
+      if (response.data.msg && response.status == "200") {
+        setMessage(response.data.msg);
+        setErrorMessage(false);
+      }
+      setWishlist(response.data.wishlist);
+    } catch (error) {
+      console.log("error fetching wishlist", error);
+      if (error.response.data) {
+        setErrorMessage(error.response.data.msg);
+        setMessage(false);
+      }
+    }
   };
+
+  useEffect(() => {
+    console.log(`message: (${message})`);
+    console.log(wishlist);
+  }, [message]);
 
   useEffect(() => {
     fetchWishList();
   }, []);
+
   return (
     <main>
       <div
-        className={`flex flex-col ${appColors.bgColor} text-${appColors.fgColor}`}
+        className={`flex flex-col ${appColors.bgColor} text-${appColors.fgColor} min-h-screen`}
       >
-        {/* Wishlist Message */}
-        <div className="text-center text-green-400 text-lg">
-          {message && <p>{message}</p>}
+        <div className="w-full flex justify-center">
+          {/* {message && (
+            <div className="text-center text-green-400 text-lg">
+              <WarningCard
+                type={"positive"}
+                message={message}
+                onclick={() => setMessage((prev) => !prev)}
+              ></WarningCard>
+            </div>
+          )} */}
+          {errorMessage && (
+            <div className="text-center text-green-400 text-lg">
+              <WarningCard
+                type={"negative"}
+                message={errorMessage}
+                onclick={() => setMessage((prev) => !prev)}
+              ></WarningCard>
+            </div>
+          )}
         </div>
 
         {/* Show Wishlist */}
         {wishlist &&
           wishlist.map((list) => (
-            <div className="flex flex-col p-10 text-2xl font-semibold">
+            <div className="flex flex-col p-10 text-2xl font-semibold border-2 rounded-lg mx-4 mt-20">
               <h2 className="my-8">
                 {list.listName.charAt(0).toUpperCase() + list.listName.slice(1)}
               </h2>
@@ -46,22 +81,22 @@ const WishList = () => {
                     <div className="w-full bg-gray-200 p-8 bg-opacity-70 text-black shadow-md">
                       <Link
                         to={`/product/${product._id}`}
-                        className="shadow-none flex font-normal text-xl w-fit"
+                        className="flex flex-col md:flex-row font-normal text-xl w-fit shadow-none items-center"
                       >
                         <div className="px-8">
-                          <h3>
-                            <div className="p-6">{product.name}</div>
-                          </h3>
                           <div className="w-72 h-72">
                             <img
-                              src={product.image}
+                              src={product.image[0]}
                               alt="product image"
                               width={"300px"}
-                              className="object-cover w-full h-full"
+                              className="object-cover w-full h-full rounded-lg"
                             />
                           </div>
                         </div>
-                        <div className="mt-20">
+                        <div className="flex flex-col gap-2">
+                          <h3>
+                            <div className="mb-8">{product.name}</div>
+                          </h3>
                           <p>Company - {product.company}</p>
                           <p>Price - {product.price} $</p>
                           <p>Rating - {product.rating}</p>

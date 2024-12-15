@@ -1,36 +1,23 @@
 const UsersModel = require('../models/users.js')
 const ProductsModel = require('../models/products.js')
 const SellersModel = require('../models/sellers')
+const reviewsModel = require('../models/reviews.js')
 const cloudinaryUpload = require('../utils/cloudinary.js');
 const { response } = require('express');
 const axios = require('axios');
-
-const allProducts = async () => {
-    try {
-        const users = await SellersModel.find();
-
-        const products = users.flatMap(user => (user.products || [])
-            .map(product => {
-                return {
-                    ...product.toObject(),
-                    seller: user.username,
-                    sellerId: user._id
-                }
-            })
-        )
-
-        return products;
-    } catch (error) {
-        return null;
-    }
-}
+const reviews = require('../models/reviews.js');
 
 const getProduct = async (req, res) => {
     try {
-        const products = await allProducts();
+        if (!req.params.id) {
+            return res.status(400).json({ error: 'please provide the product ID' })
+        }
 
         // Filter products based on the id provided in req.params.id 
-        const product = products.find(p => p._id.toString() === req.params.id)
+        const product = await ProductsModel.findById(req.params.id)
+        if (!product) {
+            res.status(404).json({ msg: 'product was not found!' })
+        }
 
         res.status(200).json({ product: product });
     }
@@ -44,15 +31,22 @@ const getProduct = async (req, res) => {
 const getAllProductsStatic = async (req, res) => {
     try {
         const users = await SellersModel.find();
+        if (!users) {
+            return res.status(404).json({ error: 'No users found' })
+        }
 
-        const products = users.flatMap(user => user.products || []);
+        const productIDs = users.flatMap(user => user.products || []);
 
-        // const products = await ProductsModel.find();
+        const allProducts = await ProductsModel.find();
 
-        if (products) {
+        const products = productIDs.map(productID => {
+            return allProducts.find(product => product._id.toString() === productID.toString());
+        });
+
+        if (productIDs) {
             return res.status(200).json({ products: products, nbHits: products.length });
         }
-        res.status(400).json({ msg: "Products not found!" });
+        res.status(404).json({ msg: "Products not found!" });
 
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -194,9 +188,41 @@ const buyProduct = async (req, res) => {
     res.status(404).json({ msg: "Product Not found!" })
 }
 
+// Reviews Route
+const getAllReviews = async (req, res) => {
+    try {
+        const { productId } = req.params;
+
+        const product = await ProductsModel.findById(productId);
+        // Get product form the product ID
+        if (!product) {
+            return res.status(400).json({ error: 'product Not found' });
+        }
+
+        // Get reviews from the product
+        const reviewIds = product.reviews;
+        if (!reviewIds) {
+            return res.status(404).json({ error: 'No Reviews found' });
+        }
+
+        // const reviews = reviewIds.forEach()
+        const reviews = await Promise.all(
+            reviewIds.map(
+                (reviewId) => reviewsModel.findById(reviewId)
+            )
+        );
+
+        res.status(200).json({ reviews: reviews });
+
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+    }
+}
+
 module.exports = {
     getProduct,
     getAllProducts,
     getAllProductsStatic,
+    getAllReviews,
     buyProduct
 }

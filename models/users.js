@@ -1,25 +1,8 @@
 const mongoose = require('mongoose');
 const ProductModel = require('./products')
+const AddressModel = require('./address');
+const PaymentModel = require('./payment')
 
-const paymentSchema = new mongoose.Schema({
-    itemSubtotal: { type: Number, required: true },
-    shipping: { type: Number, required: true },
-    cashOnDeliveryFee: { type: Number, default: 0 },
-    discount: { type: Number, default: 0 },
-    total: { type: Number, required: true },
-})
-
-const addressSchema = new mongoose.Schema({
-    type: { type: String, enum: { values: ["office", "home"], message: '{VALUE} is not supported!' }, default: 'home' },
-    isDefault: { type: Boolean, default: false },
-    person: { type: String, required: true },
-    phone: { type: Number, required: true },
-    address: { type: String, required: true },
-    landmark: { type: String },
-    city: { type: String, required: true },
-    state: { type: String, required: true },
-    pin: { type: Number, required: true },
-});
 
 const UserSchema = new mongoose.Schema({
     // Login Details
@@ -40,13 +23,12 @@ const UserSchema = new mongoose.Schema({
     gender: { type: String },
 
     // Address details
-    address: [{ type: addressSchema }],
+    address: [{ type: AddressModel.schema }],
 
     // User Cart
     cart: [{
         productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
         amount: { type: Number, required: true, min: 1 },
-        product: { type: ProductModel.schema }
     }],
 
     // User Favorites
@@ -63,8 +45,11 @@ const UserSchema = new mongoose.Schema({
         invoice: { type: String }, //Link to the pdf invoice
         paymentMethod: { type: String },
         shippingAddress: { type: String },
-        paymentSummery: { type: paymentSchema }
-    }]
+        paymentSummary: { type: PaymentModel.schema }
+    }],
+
+    // User Reviews
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
 })
 
 module.exports = mongoose.model('Users', UserSchema);

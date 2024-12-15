@@ -13,6 +13,7 @@ const connectDB = require("./db/connect")
 const productsRouter = require('./routes/products')
 const usersRouter = require('./routes/users')
 const sellersRouter = require('./routes/sellers');
+const publicRouter = require('./routes/public')
 
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
@@ -41,6 +42,7 @@ app.use(express.static(path.join(__dirname, "Frontend/dist")));
 app.use('/api/v1/products', productsRouter)
 app.use('/api/v1/user', usersRouter)
 app.use('/api/v1/seller', sellersRouter)
+app.use('/api/v1/public', publicRouter)
 
 // Error Middlewares
 app.use(notFoundMiddleware);

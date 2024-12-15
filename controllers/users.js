@@ -2,7 +2,9 @@ require('dotenv').config();
 const usersModel = require('../models/users')
 // const productsModel = require('../models/products');
 const ProductsModel = require('../models/products');
+const ReviewsModel = require('../models/reviews');
 const SellersModel = require('../models/sellers')
+
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
 
@@ -19,12 +21,13 @@ const getAllUsers = async (req, res) => {
 
 const getUser = async (req, res) => {
     try {
-        const user = req.user;
         const userId = req.user.id;
 
-        const completeUser = await usersModel.findById(userId);
+        const completeUser = await usersModel.findById(userId).lean();
 
-        res.status(200).json({ user: completeUser })
+        const { password, ...userWithoutPassword } = completeUser;
+
+        res.status(200).json({ user: userWithoutPassword })
 
     } catch (error) {
         res.status(500).json({ error: error.message })
@@ -82,13 +85,11 @@ const loginUser = async (req, res) => {
                     httpOnly: true,
                     secure: process.env.NODE_ENV === 'production', // Use Secure in production
                     sameSite: 'Strict', // Prevent CSRF
-                    maxAge: 5 * 60 * 1000, // 2 minutes
+                    maxAge: 5 * 60 * 1000, // 5 minutes
                 }).status(200).json({
                     msg: "Logged In sucessfully!",
                     user: userPayload,
-                    accessToken: accessToken,
-                    iat: decodedToken.iat,
-                    exp: decodedToken.exp
+                    exp: decodedToken.exp,
                 })
             }
             return res.status(401).json({ msg: "Incorrect Password!" });
@@ -99,6 +100,20 @@ const loginUser = async (req, res) => {
         res.status(500).json({ error: error.message })
     }
 }
+
+const logoutUser = (req, res) => {
+    try {
+        res.clearCookie('accessToken', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production', // Use Secure in production
+            sameSite: 'Strict', // Prevent CSRF
+        }).status(200).json({ msg: "Logged out successfully!" });
+    } catch (error) {
+        res.state(500).json({ error: error })
+    }
+
+};
+
 
 // ================================ Upadate User Routes =============================
 
@@ -395,7 +410,7 @@ const deleteAddress = async (req, res) => {
 };
 
 
-// ===========================WishList Routes==================================
+// ================================== WishList Routes ========================================
 
 
 const getWishList = async (req, res) => {
@@ -444,14 +459,21 @@ const addToWishlist = async (req, res) => {
 
         let { listName, product } = req.body;
 
+        // Check the Authenticity of product
+        const productExist = await ProductsModel.findById(product);
+        if (!productExist) {
+            return res.status(400).json({
+                error: "This Product doesn't exist"
+            })
+        }
 
         // Ensure wishlist is initialized
         if (!user.wishlist) {
             user.wishlist = [];
         }
 
+        // Set the wishlistItem based on whether the list Name is provided or not
         let wishlistItem;
-
         if (!listName) {
             // Add to the Default wishlist
             wishlistItem = user.wishlist.find(obj => obj.listName === "liked");
@@ -529,7 +551,7 @@ const deleteWishlist = async (req, res) => {
 }
 
 
-// =============================== Products Route =================================
+// =============================== Products Cart Route =================================
 const addToCart = async (req, res) => {
     try {
         const productId = req.params.id;
@@ -547,6 +569,11 @@ const addToCart = async (req, res) => {
             return res.status(404).json({ error: "User not found!" });
         }
 
+        // Pre-initialise the Cart array
+        if (!user.cart) {
+            user.cart = [];
+        }
+
         // Check if the product already exists in the cart
         const cartItem = user.cart.find(item => item.productId == productId);
 
@@ -554,19 +581,11 @@ const addToCart = async (req, res) => {
             // If product exists, increase the amount
             cartItem.amount += 1;
         } else {
-            // Fetch product details
-            const response = await axios.get(`${process.env.BASE_URL}/api/v1/products/single/${productId}`);
-            const productObject = response.data.product;
-
-            if (!productObject) {
-                return res.status(404).json({ error: "Product not found!" });
-            }
 
             // Add the new product to the cart
             user.cart.push({
                 productId: productId,
-                amount: 1,
-                product: productObject
+                amount: 1
             });
         }
 
@@ -644,11 +663,178 @@ const deleteFromCart = async (req, res) => {
 
 
 
+// ========================== User Product Review Route ==========================
+
+const addReview = async (req, res) => {
+
+    const { rating, comment, title } = req.body;
+    const userId = req.user.id; // Assuming user is authenticated
+    const user = await usersModel.findById(userId);
+    try {
+
+        // Find the product 
+        const product = await ProductsModel.findById(req.params.id);
+        if (!product) { return res.status(404).json({ msg: 'Product not found' }); }
+        if (!user) { return res.status(404).json({ msg: 'User not found' }); }
+
+        // If reviews doesnt exists in the user and product DBs
+        if (!product.reviews) {
+            product.reviews = [];
+            product.rating = 0;
+        }
+        if (!user.reviews) {
+            user.reviews = [];
+        }
+
+        // Check if the user has already reviewed the product
+        const existingReview = await ReviewsModel.findOne({ user: userId, product: req.params.id });
+        if (existingReview) {
+            return res.status(400).json({ error: 'You cannot review the product again' });
+        }
+
+
+
+        // Recalculate the average rating
+        const totalReviews = product.reviews.length;
+        const newRating = ((product.rating * totalReviews + rating) / (totalReviews + 1)).toFixed(1);
+        product.rating = parseFloat(newRating);
+
+
+        // Create a new review
+        const review = new ReviewsModel({
+            user: userId,
+            product: req.params.id,
+            rating: rating,
+            title: title,
+            comment: comment,
+        });
+        await review.save();
+
+        // Update the product with the new review
+        product.reviews.push(review._id);
+        await product.save();
+
+        // Update the user with the new review 
+        user.reviews.push(review._id);
+        await user.save();
+
+
+        res.status(201).json({ msg: 'Review added successfully', review });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+const getReviews = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const user = await usersModel.findById(userId);
+        if (!user) return res.status(400).json({ error: 'User not found' });
+
+        // Get review Ids
+        const reviewIds = user.reviews;
+        if (!reviewIds) {
+            return res.status(404).json({ error: 'No reviews found' });
+        }
+
+        // Fetch reviews from review IDs
+        const reviews = await Promise.all(reviewIds.map(async reviewId => {
+            return await ReviewsModel.findById(reviewId);
+        }));
+
+        // Get All the user reviews
+        res.status(200).json({ msg: 'Reviews found', reviews: reviews });
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+const deleteReview = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const user = await usersModel.findById(userId);
+        if (!user) return res.status(400).json({ error: 'User not found' });
+
+        const { reviewId } = req.params;
+
+        // Find the review in the reviewModel
+        const review = await ReviewsModel.findById(reviewId);
+        if (!review) {
+            return res.status(400).json({ error: "Review doesn't exist" });
+        }
+
+        await ReviewsModel.deleteOne({ _id: reviewId });
+
+        // Update user's reviews array
+        const reviewIndex = user.reviews.indexOf(reviewId);
+        if (reviewIndex !== -1) {
+            user.reviews.splice(reviewIndex, 1);
+            await user.save();
+        }
+
+        res.status(200).json({ msg: 'Review deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+const upvoteReview = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { reviewId } = req.params;
+
+        // Find the review by ID
+        const review = await ReviewsModel.findById(reviewId);
+        if (!review) {
+            return res.status(404).json({ error: 'Review not found' }); // [CHANGE] Corrected error message capitalization
+        }
+
+        // Check if the user has already upvoted the review
+        const hasUpvoted = review.upvotes.includes(userId);
+        if (hasUpvoted) {
+            // Remove the user's ID from the upvotes array (downvote)
+            review.upvotes = review.upvotes.filter(id => id.toString() !== userId);
+            await review.save();
+            return res.status(200).json({ msg: 'Review downvoted successfully', upvotes: review.upvotes.length });
+        }
+
+
+        // Add the user's ID to the upvotes array
+        review.upvotes.push(userId); // [CHANGE] Added user ID to upvotes
+        await review.save(); // [CHANGE] Save the updated review document
+
+        res.status(200).json({ msg: 'Review upvoted successfully', upvotes: review.upvotes.length });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+const getUserPublic = async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        const user = await usersModel.findById(userId);
+
+        const defaultAddress = user.address.find(address => address.isDefault);
+
+        if (!defaultAddress) defaultAddress = "";
+
+        res.status(200).json({ user: { name: user.name, city: defaultAddress.city } })
+
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+    }
+}
+
+
 module.exports = {
     getAllUsers,
     getUser,
     addUser,
     loginUser,
+    logoutUser,
     addToCart,
     getCart,
     deleteFromCart,
@@ -661,5 +847,10 @@ module.exports = {
     makeDefaultAddress,
     getWishList,
     addToWishlist,
-    deleteWishlist
+    deleteWishlist,
+    addReview,
+    getReviews,
+    deleteReview,
+    upvoteReview,
+    getUserPublic
 }

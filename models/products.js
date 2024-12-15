@@ -1,23 +1,19 @@
 const mongoose = require('mongoose');
+const ReviewModel = require('./reviews')
 
-const reviewSchema = new mongoose.Schema(
-    {
-        userID: { type: String, required: true },
-        rating: { type: Number, required: true },
-        date: { type: Date, default: Date.now, required: true },
-        details: { type: String, required: true },
-        review: { type: String, required: true },
-        upvotes: { type: Number, default: 0 }
-    }
-);
 
 const productSchema = new mongoose.Schema({
     // Basic
     name: { type: String, required: [true, 'product name must be provided'] },
+    image: [{ type: String }],
     description: { type: String },
-    feautres: [{ type: String }],
-    company: { type: String, enum: { values: ['ikea', 'liddy', 'caressa', 'macros'], message: '{VALUE} is not supported!' } },
-    image: { type: String },
+    company: { type: String },
+    features: [{ type: String }],
+    createdAt: { type: Date, default: Date.now() },
+
+    // Choise
+    color: [{ type: String }],
+    size: [{ type: String }],
 
     // advanced
     specifications: {
@@ -26,13 +22,19 @@ const productSchema = new mongoose.Schema({
     additionalInfo: {
         type: Object, default: {} // Default to an empty object
     },
+    stock: { type: Number, default: 0, required: true },
+
+    // Category Info
+    category: { type: String, default: "general" },
+    tags: [{ type: String }],
+
 
 
     // Price Related
     price: { type: Number, required: [true, 'product price must be provided'] },
     mrp: { type: Number },
     discount: { type: Number },
-    offers: [{ offer: { type: String }, amount: { type: Number } }],
+    offers: [{ offer: { type: String }, description: { type: String }, amount: { type: Number } }],
 
     // Policy
     replacement: { type: String },
@@ -40,13 +42,12 @@ const productSchema = new mongoose.Schema({
 
 
     // Ratings and reviews
-    rating: { type: Number, default: 4 },
-    rating_count: { type: Number, default: 0 },
-    reviews: [{}],
+    rating: { type: Number, default: 0 },
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
+
 
 
     featured: { type: Boolean, default: false },
-    createdAt: { type: Date, default: Date.now() },
 
 })
 

@@ -7,13 +7,14 @@ import LeftSidebar from "./components/LeftSideBar";
 import AllProducts from "./components/AllProducts";
 import Footer from "./components/Footer";
 import TitleBar from "./components/TitleBar";
+import HeroImages from "./images/HeroImages";
 
 function App() {
   const [company, setCompany] = useState("");
-  const [rating, setRating] = useState("1");
+  const [rating, setRating] = useState(0);
   const [sort, setSort] = useState("name");
-  const [search, setSearch] = useState("");
   const [sort_order, setSort_order] = useState("");
+  const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [minPrice, setMinPrice] = useState(100);
   const [maxPrice, setMaxPrice] = useState(10000);
@@ -21,16 +22,21 @@ function App() {
 
   const baseUrl = useContext(urlContext);
   const [url, setUrl] = useState(
-    `${baseUrl}/api/v1/seller/products?page=${page}&limit=${itemsLimit}&sortby=${sort_order + sort}`
+    `${baseUrl}/api/v1/products?page=${page}&limit=${itemsLimit}&sortby=${sort_order + sort}`
   );
 
   const appColors = useContext(colorContext);
 
+  // Calls the API for data
   useEffect(() => {
-    console.log(url);
+    console.log("API Url:", url);
+
     setUrl(
-      `${baseUrl}/api/v1/seller/products?name=${search}&page=${page}&limit=${itemsLimit}&company=${company}&sortby=${sort_order + sort}&numericfilters=price<${maxPrice},rating>=${rating}`
+      `${baseUrl}/api/v1/products?name=${search}&page=${page}&limit=${itemsLimit}&company=${company}&sortby=${sort_order + sort}&numericfilters=price<${maxPrice},rating>=${rating}`
     );
+    // setUrl(
+    //   `${baseUrl}/api/v1/seller/products?name=${search}&page=${page}&limit=${itemsLimit}&company=${company}&sortby=${sort_order + sort}&numericfilters=price<${maxPrice},rating>=${rating}`
+    // );
   }, [
     page,
     sort,
@@ -43,36 +49,62 @@ function App() {
     itemsLimit,
   ]); // Trigger URL update when page, sort, etc. changes
 
+  // for scrolling image
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      document.getElementById("scrolling-image").style.transform =
+        `translateY(${scrollPosition * 0.7}px)`;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <>
       <TitleBar></TitleBar>
-      <h2 className="bg-orange-100 flex h-14 items-center pl-9 py-20 text-3xl w-screen mt-48 sm:mt-0">
+      {/* <h2 className="bg-slate-100 flex h-14 items-center pl-9 py-20 text-3xl w-screen mt-48 sm:mt-0">
         Home Page
-      </h2>
-      <div className={`flex ${appColors.bgColor} flex-col sm:flex-row`}>
-        <LeftSidebar
-          setCompany={setCompany}
-          setMinPrice={setMinPrice}
-          maxPrice={maxPrice}
-          setMaxPrice={setMaxPrice}
-          rating={rating}
-          setRating={setRating}
-          search={search}
-          setSearch={setSearch}
-        ></LeftSidebar>
+      </h2> */}
+      <div className={`${appColors.bgColor} `}>
+        <div className="h-72 bg-none overflow-hidden rounded-b-3xl shadow-xl ">
+          <img
+            id="scrolling-image"
+            src={HeroImages.img6}
+            alt="Hero Image"
+            className="w-full h-full object-cover rounded-b-3xl"
+            style={{ objectPosition: "0px -350px" }}
+          />
+        </div>
+        <div className={`flex flex-col sm:flex-row`}>
+          <LeftSidebar
+            company={company}
+            setCompany={setCompany}
+            setMinPrice={setMinPrice}
+            maxPrice={maxPrice}
+            setMaxPrice={setMaxPrice}
+            rating={rating}
+            setRating={setRating}
+            search={search}
+            setSearch={setSearch}
+          ></LeftSidebar>
 
-        <AllProducts
-          sort={sort}
-          setSort={setSort}
-          sort_order={sort_order}
-          setSort_order={setSort_order}
-          page={page}
-          setPage={setPage}
-          url={url}
-          setUrl={setUrl}
-          visible={{ rating: true, price: true }}
-          setItemsLimit={setItemsLimit}
-        ></AllProducts>
+          <AllProducts
+            sort={sort}
+            setSort={setSort}
+            sort_order={sort_order}
+            setSort_order={setSort_order}
+            page={page}
+            setPage={setPage}
+            url={url}
+            setUrl={setUrl}
+            visible={{ rating: true, price: true }}
+            setItemsLimit={setItemsLimit}
+          ></AllProducts>
+        </div>
       </div>
       <Footer></Footer>
     </>

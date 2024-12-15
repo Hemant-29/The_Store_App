@@ -2,6 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { colorContext, urlContext } from "../../context/context";
 import { Link } from "react-router-dom";
+import checkLogin from "../functions/checkLogin";
 
 import starImage from "../assets/star.svg";
 
@@ -9,6 +10,7 @@ function ProductsCard(props) {
   const appColors = useContext(colorContext);
   const visible = props.visible;
   const hostName = useContext(urlContext);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   // States
   const [isFavorite, setIsFavorite] = useState(null);
@@ -28,6 +30,14 @@ function ProductsCard(props) {
       // console.log(`${props.name} Product Liked:`, isLiked);
     }
   };
+
+  useEffect(() => {
+    if (checkLogin().loggedIn && checkLogin().userType == "user") {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  }, []);
 
   useEffect(() => {
     checkFavorite();
@@ -100,45 +110,50 @@ function ProductsCard(props) {
 
   return (
     <>
-      <div className="flex flex-col w-64 justify-center">
+      <div className="flex flex-col w-72 justify-center">
         <Link
-          className="flex flex-col w-64 h-64 justify-center"
+          className="flex flex-col w-72 h-72 justify-center"
           to={`/product/${props.id}`}
           target="_blank"
         >
           <img
-            src={props.image}
+            src={props.image[0]}
             alt="product image"
-            className="h-full w-full object-cover object-center hover:scale-90 transition-all ease-in-out rounded-xl"
+            className="h-full w-full object-cover object-center hover:scale-90 transition-all ease-in-out rounded-xl shadow-2xl"
           />
         </Link>
 
         {/* Like The Product */}
-        <div className="relative">
-          <button
-            className="shadow-none absolute right-2 bottom-2"
-            onClick={toggleFavorite}
-          >
-            <svg
-              width="30"
-              height="30"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              fill={isFavorite ? "red" : "none"}
-              stroke={isFavorite ? "red" : "black"}
-              stroke-width="2"
+        {loggedIn && (
+          <div className="relative">
+            <button
+              className="shadow-none absolute right-2 bottom-2"
+              onClick={toggleFavorite}
             >
-              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-            </svg>
-          </button>
-        </div>
+              <svg
+                width="30"
+                height="30"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                fill={isFavorite ? "red" : "none"}
+                stroke={isFavorite ? "red" : "black"}
+                strokeWsidth="2"
+              >
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+              </svg>
+            </button>
+          </div>
+        )}
 
         <Link to={`/product/${props.id}`} target="_blank">
           <div
-            className={`flex justify-between text-${appColors.fgColor} text-lg`}
+            className={`mt-2 flex gap-2 justify-between text-${appColors.fgColor} text-lg`}
           >
-            <p className="text-xl">{props.name}</p>
-            {visible.rating ? (
+            {/* Name */}
+            <p className="text-base line-clamp-2">{props.name}</p>
+
+            {/* Rating */}
+            {visible.rating && props.rating > 0 ? (
               <div className="flex">
                 <p>{props.rating}</p>
                 <svg
@@ -171,6 +186,8 @@ function ProductsCard(props) {
             ) : (
               <></>
             )}
+
+            {/* Price */}
             {visible.price ? <p>{props.price}</p> : <></>}
           </div>
         </Link>

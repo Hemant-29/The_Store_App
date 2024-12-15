@@ -1,0 +1,546 @@
+{
+	"info": {
+		"_postman_id": "21127ed0-4f84-4d32-8ffc-e40b8d3a6d41",
+		"name": "Store API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "37341241"
+	},
+	"item": [
+		{
+			"name": "User Requests",
+			"item": [
+				{
+					"name": "Basic Requests",
+					"item": [
+						{
+							"name": "Get all Users",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:5000/api/v1/user/all"
+							},
+							"response": []
+						},
+						{
+							"name": "Get a User",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmNiZmI0Y2ZjOTNlZTYxMDdlOTA1NyIsInVzZXJuYW1lIjoidXNlcjEiLCJpYXQiOjE3MzEzNDI1OTIsImV4cCI6MTczMTM0MjYyMn0.gyRGArfv4f-m9Sjfcj8EecetfDkWEdeawhlQGUlpinI",
+										"type": "default"
+									}
+								],
+								"url": "http://localhost:5000/api/v1/user"
+							},
+							"response": []
+						},
+						{
+							"name": "User Signup",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"user9\",\r\n    \"password\":\"password9\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/api/v1/user/signup"
+							},
+							"response": []
+						},
+						{
+							"name": "User Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"user1\",\r\n    \"password\":\"password1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/api/v1/user/login"
+							},
+							"response": []
+						},
+						{
+							"name": "Logout User",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": "http://localhost:5000/api/v1/user/logout"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Cart Requests",
+					"item": [
+						{
+							"name": "Add to Cart",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3M2QxMGYxZmM2YzdjZWM2MmU4YTU4ZCIsInVzZXJuYW1lIjoidXNlcjE0IiwiaWF0IjoxNzMyMDU2MDE5LCJleHAiOjE3MzIwNTYxMzl9.Nj27lqDBR8pcpNLLgwgdIojEdP8VVxerKrjh0zUla-I",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": "http://localhost:5000/api/v1/user/product/addtocart/6759e8644893f41710077a04"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Cart",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:5000/api/v1/user/product/cart"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete from Cart",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": "http://localhost:5000/api/v1/user/product/cart/delete/6759e8644893f41710077a04"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Wish List Requests",
+					"item": [
+						{
+							"name": "Get WishList",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:5000/api/v1/user/wishlist"
+							},
+							"response": []
+						},
+						{
+							"name": "Add to Wishlist",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"product\":\"6759e8644893f41710077a04\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/api/v1/user/wishlist/create"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete wishlist item",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"listName\" : \"liked\",\r\n    \"product\" : \"6759e8644893f41710077a04\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/api/v1/user/wishlist/delete"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Update User Requests",
+					"item": [
+						{
+							"name": "Update Login",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"user14\",\r\n    \"password\":\"password14\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/api/v1/user/update/login"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Personal Details",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"BratBoy\",\r\n    \"email\":\"brat238@gmail.com\",\r\n    \"phone\":\"7845781245\",\r\n    \"age\":\"12\",\r\n    \"gender\":\"male\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/api/v1/user/update/personal"
+							},
+							"response": []
+						},
+						{
+							"name": "Add User Address",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n    \"person\":\"Ladki\", \r\n    \"phone\": 65468678, \r\n    \"address\":\"abc\", \r\n    \"landmark\":\"def\", \r\n    \"city\":\"New mast city\", \r\n    \"state\":\"Goodstate\", \r\n    \"pin\":45775, \r\n    \"type\": \"home\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/api/v1/user/update/address/new"
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Addresses",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:5000/api/v1/user/address"
+							},
+							"response": []
+						},
+						{
+							"name": "Update an Address",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"phone\": \"9876543210\",\r\n  \"landmark\": \"Near the library\",\r\n  \"isDefault\":false,\r\n  \"type\":\"office\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/api/v1/user/update/address/6750ed5042a7cdbb29955cf1"
+							},
+							"response": []
+						},
+						{
+							"name": "Make default Address",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": "http://localhost:5000/api/v1/user/update/address/default/6750eda0e6c85084a5b8dd84"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Address",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/api/v1/user/update/address/6750ec97ca0ee9f2daa21197"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Reviews Requests",
+					"item": [
+						{
+							"name": "Add review",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"rating\": 4,\r\n    \"title\": \"Sturdy and Stylish\",\r\n    \"comment\": \"I recently purchased this table for my dining room, and I am very impressed with its sturdiness and design. The wood finish is elegant, and it matches perfectly with my decor. It's spacious enough to accommodate six people comfortably. The assembly was straightforward, taking about 30 minutes. However, one of the legs was slightly uneven, which I had to adjust. Overall, I am satisfied with this purchase and would recommend it to others looking for a blend of style and functionality.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/api/v1/user/review/add/6759e8644893f41710077a04"
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Reviews",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:5000/api/v1/user/review/all"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a Review",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": "http://localhost:5000/api/v1/user/review/delete/6759f338c7a5f70531bd7e8b"
+							},
+							"response": []
+						},
+						{
+							"name": "Upvote Review",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": "http://localhost:5000/api/v1/user/review/upvote/6759fbc1c875a6a2b8b97828"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Seller Requests",
+			"item": [
+				{
+					"name": "Product Requests",
+					"item": [
+						{
+							"name": "Get all products of seller",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:5000/api/v1/seller/products"
+							},
+							"response": []
+						},
+						{
+							"name": "Get All the Products",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:5000/api/v1/seller/products/all"
+							},
+							"response": []
+						},
+						{
+							"name": "Add Product",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Ikea Wooden Desk - Natural Oak | Solid Oakwood | 30kg\",\r\n  \"description\": \"The Ikea Wooden Desk is a beautifully crafted piece that combines style and functionality, making it perfect for any home office or workspace. Constructed from high-quality oak wood, this desk features a smooth finish that enhances its natural beauty. Its spacious design provides ample space for your computer, office supplies, and other essentials, ensuring you can work efficiently and comfortably.\",\r\n  \"company\": \"Ikea\",\r\n  \"features\": [\r\n    \"High-quality oak wood construction\",\r\n    \"Elegant and modern design\",\r\n    \"Spacious desktop area\",\r\n    \"Durable and smooth finish\",\r\n    \"Easy assembly with clear instructions\"\r\n  ],\r\n  \"specifications\": {\r\n    \"width\": \"140 cm\",\r\n    \"height\": \"75 cm\",\r\n    \"depth\": \"60 cm\",\r\n    \"color\": \"Natural Oak\",\r\n    \"material\": \"Solid Oak Wood\",\r\n    \"weight\": \"30 kg\",\r\n    \"assemblyRequired\": \"Yes\",\r\n    \"warranty\": \"2 years\"\r\n  },\r\n  \"additionalInfo\": {\r\n    \"assemblyRequired\": \"Yes, tools and instructions included\",\r\n    \"warranty\": \"2 years, covering any manufacturing defects\",\r\n    \"careInstructions\": \"Wipe clean with a damp cloth and avoid harsh chemicals.\"\r\n  },\r\n  \"stock\": 100,\r\n  \"category\": \"Furniture\",\r\n  \"tags\": [\r\n    \"home office\",\r\n    \"desk\",\r\n    \"wooden furniture\",\r\n    \"ikea\"\r\n  ],\r\n  \"price\": 199.99,\r\n  \"mrp\": 249.99,\r\n  \"discount\": 20,\r\n  \"offers\": [\r\n    {\r\n      \"offer\": \"Holiday Sale\",\r\n      \"description\": \"Get 10% off during the holiday season\",\r\n      \"amount\": 10\r\n    }\r\n  ],\r\n  \"replacement\": \"30 days\",\r\n  \"return\": \"14 days\",\r\n  \"rating\": 4.5,\r\n  \"ratingsCount\": 120,\r\n  \"featured\": true\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/api/v1/seller/product"
+							},
+							"response": []
+						},
+						{
+							"name": "Add Product Image",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "productId",
+											"value": "6759cd7a3a09289fc10d699a",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/C:/Users/heman/OneDrive/Documents/WebDev/BackEnd/Project_Store/Database/Ikea_woodenDesk.webp"
+										}
+									]
+								},
+								"url": "http://localhost:5000/api/v1/seller/product/image/"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Product",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MzRiODVkNmQ2ZTMxM2E4Mjc1Y2M5ZSIsInVzZXJuYW1lIjoic2VsbGVyMSIsInByb2R1Y3RzIjpbeyJuYW1lIjoiQWxiYW55IEVsZWdhbnQgU29saWQgT2FrIERpbmluZyBUYWJsZSDigJMgMTIwIGNtIFdpZHRoIHggNzUgY20gSGVpZ2h0IHggNjAgY20gRGVwdGgsIFJpY2ggQnJvd24gRmluaXNoLCBEdXJhYmxlIE9hayBXb29kLCBTZWF0cyA2LCBJZGVhbCBmb3IgRGluaW5nIFJvb21zIGFuZCBMaXZpbmcgU3BhY2VzLCBBc3NlbWJseSBSZXF1aXJlZCwgMi1ZZWFyIFdhcnJhbnR5IiwiZGVzY3JpcHRpb24iOiJBbGJhbnkgRWxlZ2FudCBTb2xpZCBPYWsgRGluaW5nIFRhYmxlIFRyYW5zZm9ybSB5b3VyIGRpbmluZyBleHBlcmllbmNlIHdpdGggdGhlIEFsYmFueSBFbGVnYW50IFNvbGlkIE9hayBEaW5pbmcgVGFibGUsIGEgcGVyZmVjdCBibGVuZCBvZiBzdHlsZSwgZnVuY3Rpb25hbGl0eSwgYW5kIGR1cmFiaWxpdHkuIENyYWZ0ZWQgZnJvbSBwcmVtaXVtIHNvbGlkIG9hayB3b29kLCB0aGlzIHRhYmxlIGJvYXN0cyBhIHJpY2ggYnJvd24gZmluaXNoIHRoYXQgYWRkcyBhIHRvdWNoIG9mIHNvcGhpc3RpY2F0aW9uIHRvIGFueSBkaW5pbmcgcm9vbSBvciBsaXZpbmcgc3BhY2UuIE1lYXN1cmluZyAxMjAgY20gaW4gd2lkdGgsIDc1IGNtIGluIGhlaWdodCwgYW5kIDYwIGNtIGluIGRlcHRoLCB0aGUgQWxiYW55IFRhYmxlIGNvbWZvcnRhYmx5IHNlYXRzIHNpeCwgbWFraW5nIGl0IGlkZWFsIGZvciBmYW1pbHkgZGlubmVycywgY2FzdWFsIGdhdGhlcmluZ3MsIG9yIHNwZWNpYWwgb2NjYXNpb25zLiIsImNvbXBhbnkiOiJMaWRkeSIsImNyZWF0ZWRBdCI6IjIwMjQtMTItMDdUMTU6MTM6NTkuMTkyWiIsInNwZWNpZmljYXRpb25zIjp7IndpZHRoIjoiMTIwIGNtIiwiaGVpZ2h0IjoiNzUgY20iLCJkZXB0aCI6IjYwIGNtIiwiY29sb3IiOiJicm93biIsIm1hdGVyaWFsIjoib2FrIHdvb2QifSwiYWRkaXRpb25hbEluZm8iOnsiYXNzZW1ibHlSZXF1aXJlZCI6InllcyIsIndhcnJhbnR5IjoiMiB5ZWFycyJ9LCJzdG9jayI6NTAsImNhdGVnb3J5IjoiRnVybml0dXJlIiwidGFncyI6WyJkaW5pbmcgdGFibGUiLCJsaXZpbmcgcm9vbSIsIndvb2RlbiBmdXJuaXR1cmUiXSwicHJpY2UiOjI5OS45OSwibXJwIjozNDkuOTksImRpc2NvdW50Ijo0MCwib2ZmZXJzIjpbeyJvZmZlciI6IldpbnRlciBTYWxlIiwiYW1vdW50IjoxMCwiX2lkIjoiNjc1NDY2MzdkMWJjODM0ODVmNDcwZjgwIiwiZGVzY3JpcHRpb24iOiJHZXQgZmxhdCAxMCQgZGlzY291bnQgb24geW91ciBmaXJzdCBzaG9wcGluZyJ9XSwicmVwbGFjZW1lbnQiOiIxNSBkYXlzIiwicmV0dXJuIjoiNyBkYXlzIiwicmF0aW5nIjotMSwicmF0aW5nc0NvdW50IjowLCJyZXZpZXdzIjpbXSwiZmVhdHVyZWQiOmZhbHNlLCJfaWQiOiI2NzU0NjYzN2QxYmM4MzQ4NWY0NzBmN2YiLCJpbWFnZSI6WyJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kcHl2YnFpcXAvaW1hZ2UvdXBsb2FkL3YxNzMzNTg1MzU2L2tncmV6YXB2bWEwc2xmbTF6MzJvLmpwZyIsImh0dHBzOi8vcmVzLmNsb3VkaW5hcnkuY29tL2RweXZicWlxcC9pbWFnZS91cGxvYWQvdjE3MzM1OTQyOTYvdHU1ZnlwNTF1NW5neXpxMjdtNnouanBnIl0sImZlYXR1cmVzIjpbIlNvbGlkIHdvb2QgY29uc3RydWN0aW9uIiwiRWxlZ2VudCBEZXNpZ24iLCJTZWF0cyA2IGNvbWZvcnRhYmx5IiwiSWRlYWwgZm9yIGRpbmluZyByb29tcyBhbmQgbGl2aW5nIHNwYWNlcyIsIjIgLSBZZWFyIFdhcnJhbnR5Il19LHsibmFtZSI6IkFsYmFueSBOZXciLCJpbWFnZSI6W10sImRlc2NyaXB0aW9uIjoiZGluaW5nIHJvb21zIGFuZCBsaXZpbmcgc3BhY2VzLiIsImNvbXBhbnkiOiJMaWRkeSIsImZlYXR1cmVzIjpbIlNvbGlkIHdvb2QgY29uc3RydWN0aW9uIiwiRWxlZ2FudCBkZXNpZ24iLCJEdXJhYmxlIGZpbmlzaCJdLCJjcmVhdGVkQXQiOiIyMDI0LTEyLTA3VDIwOjUyOjMwLjEwMloiLCJzcGVjaWZpY2F0aW9ucyI6eyJ3aWR0aCI6IjEyMCBjbSIsImhlaWdodCI6Ijc1IGNtIiwiZGVwdGgiOiI2MCBjbSIsImNvbG9yIjoiYnJvd24iLCJtYXRlcmlhbCI6Im9hayB3b29kIn0sImFkZGl0aW9uYWxJbmZvIjp7ImFzc2VtYmx5UmVxdWlyZWQiOiJ5ZXMiLCJ3YXJyYW50eSI6IjIgeWVhcnMifSwic3RvY2siOjUwLCJjYXRlZ29yeSI6IkZ1cm5pdHVyZSIsInRhZ3MiOlsiZGluaW5nIHRhYmxlIiwibGl2aW5nIHJvb20iLCJ3b29kZW4gZnVybml0dXJlIl0sInByaWNlIjoyOTkuOTksIm1ycCI6MzQ5Ljk5LCJkaXNjb3VudCI6NDAsIm9mZmVycyI6W3sib2ZmZXIiOiJXaW50ZXIgU2FsZSIsImFtb3VudCI6MTAsIl9pZCI6IjY3NTRiNThlMDRiY2E5NjAzNzc0Y2NhOCJ9XSwicmVwbGFjZW1lbnQiOiIxNSBkYXlzIiwicmV0dXJuIjoiNyBkYXlzIiwicmF0aW5nIjotMSwicmF0aW5nc0NvdW50IjowLCJyZXZpZXdzIjpbXSwiZmVhdHVyZWQiOmZhbHNlLCJfaWQiOiI2NzU0YjU4ZTA0YmNhOTYwMzc3NGNjYTciLCJfX3YiOjB9XSwiaWF0IjoxNzMzNjA0OTA5LCJleHAiOjE3MzM2MDUyMDl9.SoDK35hCITFjNSPBOxHbgeOyxRHi-yF7fpRsVOZ1I4k",
+										"type": "text"
+									}
+								],
+								"url": "http://localhost:5000/api/v1/seller/product/6759e7d54893f417100779f9"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get All Sellers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:5000/api/v1/seller/all"
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Seller",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1iIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MzRiODVkNmQ2ZTMxM2E4Mjc1Y2M5ZSIsInVzZXJuYW1lIjoic2VsbGVyMSIsImlhdCI6MTczMzI0NjU4OCwiZXhwIjoxNzMzMjQ2ODg4fQ.hj60A9Yi7Uo1rXuIxkIqenupcy6kXMEVGfBea7F8Uoc",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"url": "http://localhost:5000/api/v1/seller"
+					},
+					"response": []
+				},
+				{
+					"name": "Seller Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"seller4\",\r\n    \"password\":\"password4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5000/api/v1/seller/signup"
+					},
+					"response": []
+				},
+				{
+					"name": "Seller Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"seller1\",\r\n    \"password\":\"password1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5000/api/v1/seller/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Seller",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:5000/api/v1/seller/6759c81c96f4ca5227c115a8"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout Seller",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:5000/api/v1/seller/logout"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product Requests",
+			"item": [
+				{
+					"name": "Get a Product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:5000/api/v1/products/single/6759e8644893f41710077a04"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Products Static",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:5000/api/v1/products/static"
+					},
+					"response": []
+				},
+				{
+					"name": "Buy a product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:5000/api/v1/products/buy/6734c585925788cbd21adc1a"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:5000/api/v1/products"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
