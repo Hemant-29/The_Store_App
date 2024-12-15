@@ -8,3 +8,5 @@ The images for each product is stored on cloudinary DataBase.
 
 You can browse through all the Products present in the Database, Seach, Sort (in any order) and filter these products.
 
+
+
