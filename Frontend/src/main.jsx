@@ -69,14 +69,6 @@ const Main = () => {
       element: <App />,
       errorElement: <NotFoundPage />,
     },
-    // {
-    //   path: "/upload",
-    //   element: <List />,
-    // },
-    // {
-    //   path: "/delete",
-    //   element: <Delete />,
-    // },
     {
       path: "/signup",
       element: <UserSignup />,
