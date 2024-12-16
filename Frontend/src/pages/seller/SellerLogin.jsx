@@ -4,6 +4,7 @@ import SellerTitlebar from "../../components/SellerTitlebar";
 import Footer from "../../components/Footer";
 import { colorContext, urlContext } from "../../../context/context";
 import { Link } from "react-router-dom";
+import WarningCard from "../../components/WarningCard";
 
 function SellerLogin() {
   const [username, setUsername] = useState("");
@@ -96,7 +97,8 @@ function SellerLogin() {
         </form>
 
         <div className="text-red-500 font-bold mb-5 text-center">
-          {message && <p>{message}</p>}
+          {/* {message && <p>{message}</p>} */}
+          {message && <WarningCard message={message} type={'positive'}></WarningCard>}
         </div>
 
         {/* {accessToken && (

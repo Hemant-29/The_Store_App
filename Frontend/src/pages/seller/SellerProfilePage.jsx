@@ -50,7 +50,7 @@ const SellerProfilePage = () => {
       localStorage.removeItem("tokenExpiry");
 
       // Remove acess token from the localstorage
-      sessionStorage.removeItem("accessToken");
+      // sessionStorage.removeItem("accessToken");
 
       if (response.data.msg) {
         setMessage(response.data.msg);

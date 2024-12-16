@@ -11,6 +11,7 @@ function ProductsCard(props) {
   const visible = props.visible;
   const hostName = useContext(urlContext);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [deletePrompt, setDeletePrompt] = useState(false);
 
   // States
   const [isFavorite, setIsFavorite] = useState(null);
@@ -87,16 +88,21 @@ function ProductsCard(props) {
   const deleteProduct = async (productID) => {
     try {
       const response = await axios.delete(
-        `${hostName}/api/v1/products/${productID}`
+        `${hostName}/api/v1/seller/product/${productID}`,
+        { withCredentials: true }
       );
+      if (response) {
+        props.setMessage(response.data.msg);
+      }
       console.log("Product deleted:", response.data);
-      location.reload();
     } catch (error) {
       if (error.response) {
         // The request was made and the server responded with a status code outside the range of 2xx
         console.error("Error data:", error.response.data);
         console.error("Error status:", error.response.status);
         console.error("Error headers:", error.response.headers);
+
+        props.setErrorMessage(error.response.data.msg);
       } else if (error.request) {
         // The request was made but no response was received
         console.error("No response received:", error.request);
@@ -110,6 +116,30 @@ function ProductsCard(props) {
 
   return (
     <>
+      {deletePrompt && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="w-1/3 h-1/3 bg-blue-200 flex flex-col items-center justify-center rounded-2xl bg-opacity-40 backdrop-filter backdrop-blur-lg animate-growAndShrink z-50">
+            Confirm deleting the product: {props.name}
+            <div className="flex gap-5">
+              <button
+                className="px-5 py-3 rounded-lg bg-red-200 text-black"
+                onClick={() => {
+                  deleteProduct(props.id);
+                  setDeletePrompt(false);
+                }}
+              >
+                Yes
+              </button>
+              <button
+                className="px-5 py-3 rounded-lg bg-slate-200 text-black"
+                onClick={() => setDeletePrompt(false)}
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="flex flex-col w-72 justify-center">
         <Link
           className="flex flex-col w-72 h-72 justify-center"
@@ -195,9 +225,10 @@ function ProductsCard(props) {
           <button
             type="button"
             onClick={() => {
-              deleteProduct(props.id);
+              setDeletePrompt(props.id);
+              // deleteProduct(props.id);
             }}
-            className="bg-red-600 p-2 rounded-md text-white"
+            className="bg-red-600 p-2 w-fit rounded-md text-white"
           >
             Delete
           </button>

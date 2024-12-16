@@ -6,9 +6,14 @@ import { colorContext, urlContext } from "../../../context/context";
 
 const ListProduct = () => {
   const appColors = useContext(colorContext);
+  const baseUrl = useContext(urlContext);
+
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
 
   const [product, setProduct] = useState({
     name: "",
+    image: "",
     description: "",
     company: "",
     features: "",
@@ -57,6 +62,75 @@ const ListProduct = () => {
     }));
   }, [tags, offers, features, specifications, additionalInfo]);
 
+  // Upload product image to the Backend
+  const uploadProductImage = async (productId) => {
+    const formData = new FormData();
+    formData.append("productId", productId);
+    formData.append("image", image);
+
+    try {
+      const response = await axios.post(
+        `${baseUrl}/api/v1/seller/product/image/`,
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data", // Ensure correct content type
+          },
+        }
+      );
+
+      if (response) {
+        console.log(
+          "Product's image upload response:",
+          response.data.msg || response
+        );
+      }
+    } catch (error) {
+      console.log(
+        "An error occured:",
+        error.response.data ||
+          error ||
+          "Error Occured while adding the product image"
+      );
+    }
+  };
+
+  // Upload Product to the Backend
+  const uploadProduct = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        `${baseUrl}/api/v1/seller/product`,
+        product,
+        { withCredentials: true }
+      );
+
+      if (response) {
+        console.log("Products upload response:", response.data || response);
+        if (response.data.product._id) {
+          const productId = response.data.product._id;
+          uploadProductImage(productId);
+        }
+      }
+    } catch (error) {
+      console.log(
+        "An error occured:",
+        error.response.data || error || "Error Uploading the product details"
+      );
+    }
+  };
+
+  // Image function
+  const addImage = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+
+    // Create a URL for the selected image file to display in the img tag
+    const imageUrl = URL.createObjectURL(file);
+    setImagePreview(imageUrl);
+  };
+
   // Tag Functions
   const handleKeyDown = (e) => {
     if (e.key === " ") {
@@ -70,11 +144,6 @@ const ListProduct = () => {
 
   const removeTag = (indexToRemove) => {
     setTags(tags.filter((_, index) => index !== indexToRemove));
-  };
-
-  // Image fucntion
-  const addImage = (e) => {
-    console.log("image target:", e.target.files[0]);
   };
 
   // Offers Functions
@@ -179,12 +248,19 @@ const ListProduct = () => {
         id="seller-list-products"
       >
         <h1 className="text-2xl font-bold mb-5">List a New Product</h1>
-        <form onSubmit={handleSubmit} className="space-y-4 w-full">
+        <form onSubmit={uploadProduct} className="space-y-4 w-full">
           <div className="flex flex-col lg:flex-row gap-10">
-            <div className="flex flex-col items-center relative w-full lg:w-140 pb-6 mb-8">
-              <div className="flex flex-col items-center justify-center text-center aspect-square text-white w-2/3  lg:w-140 lg:top-32 lg:sticky bg-stone-500 rounded-2xl">
-                Your Image Here:
-                <input type="file" onChange={addImage}></input>
+            <div
+              className={`flex flex-col items-center relative w-full lg:w-140 pb-6 mb-8  ${appColors.fgColor}`}
+            >
+              <div className=" text-center aspect-square w-2/3  lg:w-140 lg:top-32 lg:sticky bg-stone-400 bg-opacity-40 rounded-2xl">
+                <div
+                  className={`flex flex-col items-center justify-center text-${appColors.fgColor}`}
+                >
+                  <p>Your Image Here :-</p>
+                  {imagePreview && <img src={imagePreview} />}
+                  <input type="file" onChange={addImage}></input>
+                </div>
               </div>
             </div>
 

@@ -3,6 +3,9 @@ import darkModeIcon from "../assets/darkMode(old).png";
 import lightModeIcon from "../assets/lightMode.png";
 import { colorContext } from "../../context/context";
 import { Link } from "react-router-dom";
+import UploadIcon from "../icons/UploadIcon";
+import DeleteIcon from "../icons/DeleteIcon";
+import StoreIcon from "../icons/StoreIcon";
 
 const SellerTitlebar = () => {
   const appColors = useContext(colorContext);
@@ -57,7 +60,10 @@ const SellerTitlebar = () => {
             // onClick={underlineSelected}
           >
             The Store App
-            <sub className="text-base font text-violet-900"> seller</sub>
+            <sub className="text-base font-semibold text-violet-400">
+              {" "}
+              seller
+            </sub>
           </Link>
 
           {!loggedIn && (
@@ -83,7 +89,10 @@ const SellerTitlebar = () => {
                 // onClick={underlineSelected}
               >
                 {/* <WishlistIcon></WishlistIcon> */}
-                List a Product
+                <div className="flex items-center">
+                  <p className="mx-2">List</p>
+                  <UploadIcon></UploadIcon>
+                </div>
               </Link>
 
               <Link
@@ -93,7 +102,10 @@ const SellerTitlebar = () => {
                 // onClick={underlineSelected}
               >
                 {/* <WishlistIcon></WishlistIcon> */}
-                Delete a Product
+                <div className="flex items-center">
+                  <p className="mx-2">Delete</p>
+                  <DeleteIcon></DeleteIcon>
+                </div>
               </Link>
 
               <Link
@@ -102,7 +114,10 @@ const SellerTitlebar = () => {
                 className="text-lg font-medium p-3"
                 //   onClick={underlineSelected}
               >
-                Seller
+                <div className="flex items-center">
+                  <p className="mx-2">Seller</p>
+                  <StoreIcon></StoreIcon>
+                </div>
               </Link>
             </>
           )}

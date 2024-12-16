@@ -27,11 +27,13 @@ import SellerLogin from "./pages/seller/SellerLogin.jsx";
 import SellerSignup from "./pages/seller/SellerSignup.jsx";
 import SellerProfilePage from "./pages/seller/SellerProfilePage.jsx";
 import SellerHomePage from "./pages/seller/SellerHomePage.jsx";
+import SellerNotFoundPage from "./pages/Other/SellerNotFoundPage.jsx";
 
 // Import Contexts
 import { colorContext, urlContext } from "../context/context.js";
 import SellerProductsPage from "./pages/seller/SellerProductsPage.jsx";
 import ListProduct from "./pages/seller/ListProduct.jsx";
+import DeleteProduct from "./pages/seller/DeleteProduct.jsx";
 
 // Main Function with all the logic
 const Main = () => {
@@ -102,6 +104,7 @@ const Main = () => {
     {
       path: "/seller",
       element: <SellerHomePage />,
+      errorElement: <SellerNotFoundPage></SellerNotFoundPage>,
     },
     {
       path: "/signup/seller",
@@ -122,6 +125,10 @@ const Main = () => {
     {
       path: "/seller/product/list",
       element: <ListProduct></ListProduct>,
+    },
+    {
+      path: "seller/product/delete",
+      element: <DeleteProduct></DeleteProduct>,
     },
   ]);
 

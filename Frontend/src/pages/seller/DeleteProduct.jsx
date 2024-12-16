@@ -6,9 +6,10 @@ import Footer from "../../components/Footer";
 import ProductsCard from "../../components/ProductsCard";
 import WarningCard from "../../components/WarningCard";
 
-const SellerHomePage = () => {
+const DeleteProduct = () => {
   const [products, setProducts] = useState([]);
   const [detailedProducts, setDetailedProducts] = useState([]);
+
 
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
@@ -28,7 +29,7 @@ const SellerHomePage = () => {
       if (response.data.products) {
         setProducts(response.data.products);
         console.log("Backend API response:", response.data.products);
-        setMessage(response.data.msg);
+        // setMessage(response.data.msg);
       }
       setLoading(false);
     } catch (err) {
@@ -83,51 +84,55 @@ const SellerHomePage = () => {
   return (
     <>
       <SellerTitlebar></SellerTitlebar>
-      <div className={`${appColors.bgColor} text-${appColors.fgColor} p-8`}>
+      <main className={`${appColors.bgColor} text-${appColors.fgColor} p-8 h-screen`}>
         {loading && <p className="text-4xl text-center">Loading...</p>}
         {!loading && (
-          <div className={`flex flex-col gap-4 `}>
+          <>
+            
             <h1 className="my-5 text-3xl">Your Products</h1>
-            {/* {message && (
-              <WarningCard
-                type="positive"
-                message={message}
-                onclick={() => setMessage((prev) => !prev)}
-              ></WarningCard>
-            )} */}
-            {errorMessage && (
-              <WarningCard
-                type="negative"
-                message={errorMessage}
-                onclick={() => setErrorMessage((prev) => !prev)}
-              ></WarningCard>
-            )}
-            <div
-              id="seller-home-products_list"
-              className="flex flex-wrap gap-8 flex-col sm:flex-row items-center"
-            >
-              {detailedProducts.map((product, index) => (
-                <div className="product-card">
-                  <ProductsCard
-                    key={index}
-                    id={product._id}
-                    image={product.image}
-                    name={product.name}
-                    price={`${product.price}$`}
-                    rating={product.rating}
-                    visible={{ rating: true, price: true }}
-                  ></ProductsCard>
-                </div>
-              ))}
+            <div className={`flex flex-col items-center gap-4 `}>
+              {message && (
+                <WarningCard
+                  type="positive"
+                  message={message}
+                  onclick={() => setMessage((prev) => !prev)}
+                ></WarningCard>
+              )}
+              {errorMessage && (
+                <WarningCard
+                  type="negative"
+                  message={errorMessage}
+                  onclick={() => setErrorMessage((prev) => !prev)}
+                ></WarningCard>
+              )}
+              <div
+                id="seller-home-products_list"
+                className="flex flex-wrap gap-8 flex-col sm:flex-row items-center"
+              >
+                {detailedProducts.map((product, index) => (
+                  
+                  <div className="product-card">
+                    <ProductsCard
+                      key={index}
+                      id={product._id}
+                      image={product.image}
+                      name={product.name}
+                      price={`${product.price}$`}
+                      rating={product.rating}
+                      visible={{ rating: true, price: true, delete: true }}
+                      setErrorMessage={setErrorMessage}
+                      setMessage={setMessage}
+                    ></ProductsCard>
+                  </div>
+                ))}
+              </div>
             </div>
-            <h1 className="my-5 text-3xl">Your Sales</h1>
-            <h1 className="my-5 text-3xl">Your Profit</h1>
-          </div>
+          </>
         )}
-      </div>
+      </main>
       <Footer></Footer>
     </>
   );
 };
 
-export default SellerHomePage;
+export default DeleteProduct;

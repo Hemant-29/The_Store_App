@@ -57,8 +57,8 @@ export default {
         growAndShrink:
         {
           '0%': { transform: 'scale(0)' },
-          '10%, 90%': { transform: 'scale(1)' },
-          '100%': { transform: 'scale(0)' },
+          '10%, 100%': { transform: 'scale(1)' },
+          // '100%': { transform: 'scale(0)' },
         },
         slide: {
           '0%': { transform: 'translateX(var(--tw-translate-start)) scale(1)' },
