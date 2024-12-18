@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const colors = require('tailwindcss/colors');
+const lineClamp = require('@tailwindcss/line-clamp');
 
 const magnifierSVG = encodeURIComponent(`
 <svg viewBox="0 0 32 32" 
@@ -22,13 +24,9 @@ const magnifierSVG = encodeURIComponent(`
     </g>
   </g>
 </svg>
-
-
 `);
 
-
-
-export default {
+module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -37,28 +35,22 @@ export default {
     extend: {
       // Extended height properties
       height: {
-        '140': '35rem', // Add more custom heights as needed 
-
+        '140': '35rem', // Add more custom heights as needed
       },
-
       // Extended width properties
       width: {
         '140': '35rem',
       },
-
       // Extended box shadow properties
       boxShadow: {
         'even-sm': '0 0px 6px 2px rgba(0, 0, 0, 0.1)',
         'even-md': '0 0px 6px 4px rgba(0, 0, 0, 0.1)',
       },
-
       // Extended keyframes properties
       keyframes: {
-        growAndShrink:
-        {
+        growAndShrink: {
           '0%': { transform: 'scale(0)' },
           '10%, 100%': { transform: 'scale(1)' },
-          // '100%': { transform: 'scale(0)' },
         },
         slide: {
           '0%': { transform: 'translateX(var(--tw-translate-start)) scale(1)' },
@@ -71,27 +63,25 @@ export default {
           '100%': { transform: 'translateX(var(--tw-translate-start)) translateY(-70px) scale(0.75)' },
         }
       },
-
       // Extended Animation properties
       animation: {
         growAndShrink: 'growAndShrink 2s ease-in-out',
         slide: 'slide 0.5s ease-in-out forwards',
         scaleDown: 'scaleDown 0.5s ease-in-out forwards',
       },
-
       // Extended Cursor
       cursor: {
         'magnifier': `url("data:image/svg+xml,${magnifierSVG}") 20 20, auto`,
       },
-
-      color: {
-        'login-button': '#'
-      }
-
-
+      // Extended Colors
+      colors: {
+        'login-button': '#your-color-hex', // Make sure to define your color here
+      },
     },
   },
-  plugins: [require('@tailwindcss/line-clamp')
-    ,// Other plugins...
+  plugins: [
+    lineClamp,
+    // Other plugins...
   ],
 }
+  
