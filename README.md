@@ -1,6 +1,19 @@
 # E-Commerce Project
 
+## Important Note!
+
+When you open the website using this link: the-store-app.vercel.app (specially on the Edge browser), please follow these steps to ensure login functionality works smoothly:
+
+1. Go to the address bar of your browser.
+
+2. Click the icon on the left side (usually a padlock or info symbol).
+
+3. Select "Cookies and site data" or a similar option.
+
+4. If the "Block third-party cookies" setting is enabled, make sure to disable it.
+
 ## Overview
+
 This is a comprehensive E-commerce web application built using modern web technologies. The project features both a robust backend and an intuitive frontend, providing functionality for buyers, sellers, and administrators. It facilitates product listing, user authentication, and smooth order management.
 
 ---
@@ -8,6 +21,7 @@ This is a comprehensive E-commerce web application built using modern web techno
 ## Project Directory Structure
 
 ### Backend
+
 The backend is built with Node.js, Express.js, and MongoDB, leveraging the Mongoose ODM for data modeling. It includes the following key components:
 
 - **`server.js`**: The entry point of the backend server.
@@ -23,6 +37,7 @@ The backend is built with Node.js, Express.js, and MongoDB, leveraging the Mongo
 - **`Database`**: Contains sample product images.
 
 ### Frontend
+
 The frontend is developed using ReactJS with Vite for build optimization. It provides a responsive and user-friendly interface for interacting with the platform.
 
 - **`src`**: Core folder containing:
@@ -44,6 +59,7 @@ The frontend is developed using ReactJS with Vite for build optimization. It pro
 ## Features
 
 ### User Features
+
 - **Authentication**:
   - User registration and login.
   - Secure password hashing using bcrypt.
@@ -62,12 +78,14 @@ The frontend is developed using ReactJS with Vite for build optimization. It pro
   - Update user details like name, email, and address.
 
 ### Seller Features
+
 - **Product Management**:
   - Add, edit, or remove products.
   - Upload product images directly.
   - View performance metrics (sales, views).
 
 ### Admin Features
+
 - **User Management**:
   - View all registered users.
   - Ban/unban users.
@@ -79,11 +97,13 @@ The frontend is developed using ReactJS with Vite for build optimization. It pro
 ## Setup
 
 ### Prerequisites
+
 - Node.js (>=16.x)
 - MongoDB (local or cloud-based like MongoDB Atlas)
 - npm or yarn package manager
 
 ### Backend Setup
+
 1. Navigate to the backend directory:
    ```bash
    cd C:\Users\heman\OneDrive\Documents\WebDev\BackEnd\Project_Store
@@ -100,6 +120,7 @@ The frontend is developed using ReactJS with Vite for build optimization. It pro
    The server will run at `http://localhost:8000`.
 
 ### Frontend Setup
+
 1. Navigate to the frontend directory:
    ```bash
    cd C:\Users\heman\OneDrive\Documents\WebDev\BackEnd\Project_Store\Frontend
@@ -119,18 +140,21 @@ The frontend is developed using ReactJS with Vite for build optimization. It pro
 ## Deployment
 
 ### Backend
+
 The backend includes a `vercel.json` file for deployment configuration. It can be deployed to services like Vercel or Heroku.
 
 ### Frontend
+
 The frontend is optimized for deployment using Vite and can be hosted on platforms like Vercel or Netlify.
 
 ---
 
 ## API Documentation
+
 API endpoints are documented in the Postman collection located in the `Postman` folder. Import it into Postman to view and test API functionalities.
 
 ---
 
 ## License
-This project is licensed under the MIT License. See the `LICENSE` file for details.
 
+This project is licensed under the MIT License. See the `LICENSE` file for details.
