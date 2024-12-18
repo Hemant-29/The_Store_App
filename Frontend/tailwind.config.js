@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
-const colors = require('tailwindcss/colors');
-const lineClamp = require('@tailwindcss/line-clamp');
+// Importing necessary modules using ES Module syntax 
+import colors from 'tailwindcss/colors';
+import lineClamp from '@tailwindcss/line-clamp'
 
 const magnifierSVG = encodeURIComponent(`
 <svg viewBox="0 0 32 32" 
@@ -84,4 +85,3 @@ module.exports = {
     // Other plugins...
   ],
 }
-  
