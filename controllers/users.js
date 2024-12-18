@@ -68,6 +68,8 @@ const loginUser = async (req, res) => {
             return res.status(400).json({ error: 'Username and password must be provided' });
         }
 
+        console.log("trying user login...");
+
         const existingUser = await usersModel.findOne({ username });
         if (existingUser) {
             if (existingUser.password == password) {
@@ -79,7 +81,8 @@ const loginUser = async (req, res) => {
                 const accessToken = jwt.sign(userPayload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '300s' })
                 const decodedToken = jwt.decode(accessToken);
 
-
+                console.log('Generated token:', accessToken);
+                console.log("Decoded token:", decodedToken);
 
                 return res.cookie('accessToken', accessToken, {
                     httpOnly: true,
