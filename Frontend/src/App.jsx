@@ -33,6 +33,7 @@ function App() {
     const checkBackendHealth = async () => {
       try {
         const response = await fetch(`${baseUrl}/api/v1/public/health`);
+        console.log("Backend Health response: ", response);
         if (response.ok) {
           setIsBackendLoading(false);
         } else {
@@ -47,6 +48,10 @@ function App() {
     return () => clearInterval(interval);
     // Clean up interval on component unmount
   }, [baseUrl]);
+
+  useEffect(() => {
+    console.log("is Backend loading? State Variable : ", isBackendLoading);
+  }, [isBackendLoading]);
 
   // Calls the API for data
   useEffect(() => {
