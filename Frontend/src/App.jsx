@@ -92,15 +92,18 @@ function App() {
   if (isBackendLoading) {
     return (
       <>
-        <TitleBar></TitleBar>
-        <div className={`${appColors.bgColor} `}>
-          <div className="h-72 bg-none overflow-hidden rounded-b-3xl shadow-xl ">
-            <h1>Loading... Please wait while the server is starting up.</h1>
-          </div>
-        </div>
-        <Footer></Footer>
-        {/* <div className="flex items-center justify-center h-screen">
+        {/* <TitleBar></TitleBar> */}
+        {/* <div className={`${appColors.bgColor} `}>
+          <div className="h-72 bg-none overflow-hidden rounded-b-3xl shadow-xl "></div>
         </div> */}
+        {/* <Footer></Footer> */}
+        <div className="flex items-center justify-center h-screen">
+          <h1 className="text-4xl">
+            <p>Loading...</p>
+            <p>Please wait while the server is starting up</p>
+            <p>(Reload after a few seconds)</p>
+          </h1>
+        </div>
       </>
     );
   }
