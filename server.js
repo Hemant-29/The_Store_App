@@ -39,10 +39,6 @@ app.use(cors(corsOptions)); // Enable CORS for all routes
 // Serving Static files
 app.use(express.static(path.join(__dirname, "Frontend/dist")));
 
-// // React Fallback Route (Client-Side Routing)
-// app.get('*', (req, res) => {
-//     res.sendFile(path.resolve(staticPath, 'index.html')); // Serve React app for all other routes
-// });
 
 app.use('/api/v1/products', productsRouter)
 app.use('/api/v1/user', usersRouter)

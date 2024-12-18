@@ -78,7 +78,7 @@ const loginSeller = async (req, res) => {
                 return res.cookie('accessToken', accessToken, {
                     httpOnly: true,
                     secure: process.env.NODE_ENV === 'production', // Use Secure in production
-                    sameSite: 'Strict', // Prevent CSRF
+                    sameSite: 'none', // Prevent CSRF
                     maxAge: 5 * 60 * 1000, // 5 minutes
                 }).status(200).json({
                     msg: "Logged In sucessfully!",
@@ -102,7 +102,7 @@ const logoutSeller = (req, res) => {
         res.clearCookie('accessToken', {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production', // Use Secure in production
-            sameSite: 'Strict', // Prevent CSRF
+            sameSite: 'none', // Prevent CSRF
         }).status(200).json({ msg: "Logged out successfully!" });
     } catch (error) {
         res.state(500).json({ error: error })
