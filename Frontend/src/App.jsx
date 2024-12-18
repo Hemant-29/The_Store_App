@@ -19,6 +19,7 @@ function App() {
   const [minPrice, setMinPrice] = useState(100);
   const [maxPrice, setMaxPrice] = useState(10000);
   const [itemsLimit, setItemsLimit] = useState(10);
+  const [isBackendLoading, setIsBackendLoading] = useState(true);
 
   const baseUrl = useContext(urlContext);
   const [url, setUrl] = useState(
@@ -26,6 +27,26 @@ function App() {
   );
 
   const appColors = useContext(colorContext);
+
+  // Check backend health status
+  useEffect(() => {
+    const checkBackendHealth = async () => {
+      try {
+        const response = await fetch(`${baseUrl}/api/v1/public/health`);
+        if (response.ok) {
+          setIsBackendLoading(false);
+        } else {
+          setIsBackendLoading(true);
+        }
+      } catch (error) {
+        setIsBackendLoading(true);
+      }
+    };
+    checkBackendHealth();
+    const interval = setInterval(checkBackendHealth, 5000); // Check every 5 seconds
+    return () => clearInterval(interval);
+    // Clean up interval on component unmount
+  }, [baseUrl]);
 
   // Calls the API for data
   useEffect(() => {
@@ -62,6 +83,22 @@ function App() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  if (isBackendLoading) {
+    return (
+      <>
+        <TitleBar></TitleBar>
+        <div className={`${appColors.bgColor} `}>
+          <div className="h-72 bg-none overflow-hidden rounded-b-3xl shadow-xl ">
+            <h1>Loading... Please wait while the server is starting up.</h1>
+          </div>
+        </div>
+        <Footer></Footer>
+        {/* <div className="flex items-center justify-center h-screen">
+        </div> */}
+      </>
+    );
+  }
 
   return (
     <>

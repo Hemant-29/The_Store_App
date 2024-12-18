@@ -28,6 +28,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true })); // For parsing URL-encoded data
 
+
 const corsOptions = {
     origin: ['https://the-store-app.vercel.app', 'http://localhost:5173'], // Frontend's URL
     credentials: true, // Allow cookies to be sent
@@ -46,6 +47,7 @@ app.use('/api/v1/products', productsRouter)
 app.use('/api/v1/user', usersRouter)
 app.use('/api/v1/seller', sellersRouter)
 app.use('/api/v1/public', publicRouter)
+
 
 // Error Middlewares
 app.use(notFoundMiddleware);
