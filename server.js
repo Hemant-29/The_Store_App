@@ -29,11 +29,14 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true })); // For parsing URL-encoded data
 
 const corsOptions = {
-    origin: ['https://the-store-app.vercel.app/', 'http://localhost:5173'], // Frontend's URL
+    origin: ['https://the-store-app.vercel.app', 'http://localhost:5173'], // Frontend's URL
     credentials: true, // Allow cookies to be sent
 };
 
 app.use(cors(corsOptions)); // Enable CORS for all routes
+
+app.options('*', cors(corsOptions));  // This will handle preflight requests
+
 
 // Serving Static files
 app.use(express.static(path.join(__dirname, "Frontend/dist")));
