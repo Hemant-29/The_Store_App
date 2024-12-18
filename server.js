@@ -30,7 +30,6 @@ app.use(express.urlencoded({ extended: true })); // For parsing URL-encoded data
 
 const corsOptions = {
     origin: ['https://the-store-app.vercel.app', 'http://localhost:5173'], // Frontend's URL
-    // origin: 'http://localhost:5173', 
     credentials: true, // Allow cookies to be sent
 };
 
