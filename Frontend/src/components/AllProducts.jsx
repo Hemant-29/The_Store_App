@@ -70,11 +70,13 @@ function AllProducts(props) {
   return (
     <>
       <div className="top-0 w-full p-8">
-        <div className="flex justify-between my-4">
-          <p className={`text-${appColors.fgColor} p-2`}>
+        <div className="flex flex-wrap justify-between my-4">
+          <p
+            className={`text-${appColors.fgColor} text-nowrap p-2 hidden lg:block`}
+          >
             {totalProductCount} Products Found
           </p>
-          <div className="flex items-center">
+          <div className="flex items-center text-nowrap">
             <p className={`text-${appColors.fgColor} p-2`}>Items per page</p>
             <input
               type="number"
@@ -88,7 +90,7 @@ function AllProducts(props) {
             />
           </div>
           <p className={`text-${appColors.fgColor} p-3`}>Page - {props.page}</p>
-          <div className="flex flex-col sm:flex-row gap-4 p-2">
+          <div className="flex flex-row gap-4 p-2">
             <p className={`text-${appColors.fgColor}`}>Sort By</p>
             <select
               name="sortby"
@@ -122,7 +124,7 @@ function AllProducts(props) {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-12 ">
+        <div className="flex flex-wrap justify-center sm:justify-normal gap-12 ">
           {isLoading ? (
             <p className={`text-${appColors.fgColor} text-lg`}>Loading...</p>
           ) : (

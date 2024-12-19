@@ -17,7 +17,7 @@ function ProductsCardCart(props) {
 
   return (
     <>
-      <div className="text-black flex">
+      <div className="text-black flex flex-col md:flex-row">
         <img
           src={props.image}
           alt="product image"
@@ -42,7 +42,7 @@ function ProductsCardCart(props) {
 
             {visible.price ? (
               <div>
-                <div className="flex items-center text-xl">
+                <div className="flex flex-wrap items-center text-xl">
                   <p className="text-green-600">
                     {calculateOffer(props.mrp, props.price)}% off
                   </p>

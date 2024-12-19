@@ -78,7 +78,7 @@ const CartPage = (props) => {
         Cart
       </h2> */}
       <main
-        className={`flex ${appColors.bgColor} text-${appColors.fgColor} min-h-screen`}
+        className={`flex flex-col items-center sm:flex-row sm:items-stretch ${appColors.bgColor} text-${appColors.fgColor} min-h-screen`}
       >
         {!isLoading && checkLogin().loggedIn && (
           <div
@@ -88,7 +88,7 @@ const CartPage = (props) => {
             {products.length != 0 ? (
               products.map((productObject, index) => {
                 return (
-                  <div className="flex flex-col gap-4 items-start text-black bg-zinc-100 bg-opacity-85 p-4 ml-20 w-full shadow-lg rounded-xl">
+                  <div className="flex flex-col gap-4 items-start text-black bg-zinc-100 bg-opacity-85 p-4 md:ml-20 w-full shadow-lg rounded-xl">
                     <ProductsCardCart
                       key={index}
                       name={productObject.name}
@@ -213,7 +213,7 @@ const CartPage = (props) => {
         {!isLoading && checkLogin().loggedIn == true && products.length > 0 && (
           <div
             id="productsBill"
-            className="flex flex-col items-center top-14 right-5 sticky h-min bg-white p-6 text-black text-lg"
+            className="flex flex-col items-center top-14 right-5 sm:sticky h-min bg-white p-6 text-black text-lg"
           >
             <p className="text-2xl font-semibold my-6">Price Detail</p>
             {products.map((productObject, index) => {

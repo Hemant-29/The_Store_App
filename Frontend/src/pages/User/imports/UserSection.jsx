@@ -247,6 +247,8 @@ const UserSection = (props) => {
               <br /> {user ? user.name : "user"}
             </h2>
           </li>
+
+          <div className="flex flex-row flex-wrap gap-4 md:flex-col">
           {sections.map((section) => (
             <li key={section.key}>
               <button
@@ -265,6 +267,7 @@ const UserSection = (props) => {
               </button>
             </li>
           ))}
+          </div>
         </ul>
       </div>
 

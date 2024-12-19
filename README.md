@@ -2,7 +2,7 @@
 
 ## Important Note!
 
-When you open the website using this link: the-store-app.vercel.app (specially on the Edge browser), please follow these steps to ensure login functionality works smoothly:
+When you open the website using this link: the-store-app.vercel.app (specially on the Edge browser), please follow these steps to ensure login functionality works correctly:
 
 1. Go to the address bar of your browser.
 
@@ -62,7 +62,6 @@ The frontend is developed using ReactJS with Vite for build optimization. It pro
 
 - **Authentication**:
   - User registration and login.
-  - Secure password hashing using bcrypt.
   - Role-based access (buyers, sellers, admins).
 - **Product Browsing**:
   - Search for products.
@@ -75,14 +74,14 @@ The frontend is developed using ReactJS with Vite for build optimization. It pro
   - Checkout process with form validation.
   - Integration with payment gateway (to be added).
 - **Profile Management**:
-  - Update user details like name, email, and address.
+  - Update user details like name, email, and address etc.
 
 ### Seller Features
 
 - **Product Management**:
   - Add, edit, or remove products.
   - Upload product images directly.
-  - View performance metrics (sales, views).
+  - View performance metrics (sales, views) (to be added).
 
 ### Admin Features
 
@@ -106,7 +105,7 @@ The frontend is developed using ReactJS with Vite for build optimization. It pro
 
 1. Navigate to the backend directory:
    ```bash
-   cd C:\Users\heman\OneDrive\Documents\WebDev\BackEnd\Project_Store
+   cd C:\Users\Yourname\path to the project...\Project_Store
    ```
 2. Install dependencies:
    ```bash
@@ -123,7 +122,7 @@ The frontend is developed using ReactJS with Vite for build optimization. It pro
 
 1. Navigate to the frontend directory:
    ```bash
-   cd C:\Users\heman\OneDrive\Documents\WebDev\BackEnd\Project_Store\Frontend
+   cd C:\Users\Yourname\path to the project...\Project_Store\Frontend
    ```
 2. Install dependencies:
    ```bash
@@ -141,11 +140,11 @@ The frontend is developed using ReactJS with Vite for build optimization. It pro
 
 ### Backend
 
-The backend includes a `vercel.json` file for deployment configuration. It can be deployed to services like Vercel or Heroku.
+The Backend server of this project is hosted on the Render platform
 
 ### Frontend
 
-The frontend is optimized for deployment using Vite and can be hosted on platforms like Vercel or Netlify.
+The frontend is optimized for deployment using Vite and is currently hosted on platforms - Vercel.
 
 ---
 

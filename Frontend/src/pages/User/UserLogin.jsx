@@ -79,22 +79,32 @@ const UserLogin = () => {
         {/* <h2 className="bg-orange-100 flex h-14 items-center pl-9 py-20 text-3xl w-screen  mt-48 sm:mt-0">
           Log In
         </h2> */}
-        <div className="h-72 bg-none overflow-hidden rounded-b-3xl shadow-xl ">
-          <img
-            id="scrolling-image"
-            src={loginImage}
-            alt="wall Image"
-            className="w-full h-full object-cover rounded-b-3xl"
-            style={{ objectPosition: "0px -400px" }}
-          />
+        <div className="flex flex-col items-center w-full font-bold mb-5 text-center">
+          <div className="aspect-h-1 aspect-w-3 sm:aspect-w-6 rounded-b-2xl sm:rounded-b-3xl w-full bg-none overflow-hidden  shadow-xl z-10">
+            <img
+              id="scrolling-image"
+              src={loginImage}
+              alt="Login Image"
+              className="w-full h-full object-cover object-center rounded-b-2xl sm:rounded-b-3xl z-10"
+              // style={{ objectPosition: "0px -350px" }}
+            />
+          </div>
+
+          {message && (
+            <WarningCard
+              message={message}
+              type={"positive"}
+              onclick={() => setMessage((prev) => !prev)}
+            ></WarningCard>
+          )}
         </div>
         {/* <img src={loginImage} alt="" className="absolute" /> */}
         <login
-          className={`flex justify-center my-14 text-${appColors.fgColor}`}
+          className={`flex flex-col items-center md:items-stretch md:flex-row rounded-2xl md:justify-center my-14 text-${appColors.fgColor}`}
         >
           <div
             id="Login Form"
-            className="bg-sky-50 p-6 rounded-l-2xl backdrop-filter backdrop-blur-md bg-opacity-40 shadow-xl"
+            className="bg-sky-50 p-6 rounded-t-2xl md:rounded-none md:rounded-l-2xl backdrop-filter backdrop-blur-md bg-opacity-40 shadow-xl"
           >
             <h2 className="text-xl p-5 text-center ">
               Enter Your User Credentials
@@ -138,7 +148,7 @@ const UserLogin = () => {
           <div
             id="Seller Login Section"
             onClick={() => {}}
-            className="flex flex-col items-center bg-white p-8 rounded-r-2xl backdrop-filter backdrop-blur-md bg-opacity-60 shadow-md"
+            className="flex flex-col items-center bg-white p-8 rounded-b-2xl md:rounded-none md:rounded-r-2xl backdrop-filter backdrop-blur-md bg-opacity-60 shadow-md"
           >
             <div>
               <img
@@ -158,15 +168,7 @@ const UserLogin = () => {
             </button>
           </div>
         </login>
-        <div className="flex flex-col items-center w-full font-bold mb-5 text-center">
-          {message && (
-            <WarningCard
-              message={message}
-              type={"positive"}
-              onclick={() => setMessage((prev) => !prev)}
-            ></WarningCard>
-          )}
-        </div>
+
         <Footer></Footer>
       </div>
     </>

@@ -12,6 +12,4 @@ const healthFunction = (req, res) => {
 router.route('/user/:userId').get(user.getUserPublic);
 router.route('/health').get(healthFunction);
 
-
-
 module.exports = router;

@@ -62,13 +62,18 @@ module.exports = {
           '0%': { transform: 'translateX(var(--tw-translate-start)) translateY(0px) scale(1)' },
           '35%': { transform: 'translateX(var(--tw-translate-start)) translateY(-10px) scale(1.4)' },
           '100%': { transform: 'translateX(var(--tw-translate-start)) translateY(-70px) scale(0.75)' },
-        }
+        },
+        slideDownExpand: {
+          '0%': { transform: 'translateY(-100%)', height: 'auto' },
+          '100%': { transform: 'translateY(0)', height: 'auto' },
+        },
       },
       // Extended Animation properties
       animation: {
         growAndShrink: 'growAndShrink 2s ease-in-out',
         slide: 'slide 0.5s ease-in-out forwards',
         scaleDown: 'scaleDown 0.5s ease-in-out forwards',
+        slideDownExpand: 'slideDownExpand 0.3s ease-out forwards',
       },
       // Extended Cursor
       cursor: {
@@ -82,6 +87,7 @@ module.exports = {
   },
   plugins: [
     lineClamp,
+    require('@tailwindcss/aspect-ratio'),
     // Other plugins...
   ],
 }

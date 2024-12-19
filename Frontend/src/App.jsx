@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { colorContext, urlContext } from "../context/context";
+import { colorContext, urlContext, widthContext } from "../context/context";
 
 import "./App.css";
 
@@ -20,6 +20,7 @@ function App() {
   const [maxPrice, setMaxPrice] = useState(10000);
   const [itemsLimit, setItemsLimit] = useState(10);
   const [isBackendLoading, setIsBackendLoading] = useState(true);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const baseUrl = useContext(urlContext);
   const [url, setUrl] = useState(
@@ -28,18 +29,41 @@ function App() {
 
   const appColors = useContext(colorContext);
 
+  // Window Width Change effect hook
+  // Debounce function
+  const debounce = (func, wait) => {
+    let timeout;
+    return (...args) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+  };
+
+  useEffect(() => {
+    const handleResize = debounce(() => {
+      setWindowWidth(window.innerWidth);
+    }, 200); // Adjust the delay as needed
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  localStorage.setItem("backendLoading", false);
   // Check backend health status
   useEffect(() => {
     const checkBackendHealth = async () => {
       try {
         const response = await fetch(`${baseUrl}/api/v1/public/health`);
-        console.log("Backend Health response: ", response);
         if (response.ok) {
+          localStorage.setItem("backendLoading", false);
           setIsBackendLoading(false);
         } else {
+          localStorage.setItem("backendLoading", true);
           setIsBackendLoading(true);
         }
       } catch (error) {
+        localStorage.setItem("backendLoading", true);
         setIsBackendLoading(true);
       }
     };
@@ -48,10 +72,6 @@ function App() {
     return () => clearInterval(interval);
     // Clean up interval on component unmount
   }, [baseUrl]);
-
-  useEffect(() => {
-    console.log("is Backend loading? State Variable : ", isBackendLoading);
-  }, [isBackendLoading]);
 
   // Calls the API for data
   useEffect(() => {
@@ -89,7 +109,11 @@ function App() {
     };
   }, []);
 
-  if (isBackendLoading) {
+  useEffect(() => {
+    localStorage.setItem("ulPosition", "280px");
+  }, []);
+
+  if (localStorage.getItem("backendLoading") === true) {
     return (
       <>
         {/* <TitleBar></TitleBar> */}
@@ -101,7 +125,7 @@ function App() {
           <h1 className="text-4xl">
             <p>Loading...</p>
             <p>Please wait while the server is starting up</p>
-            <p>(Reload after a few seconds)</p>
+            <p>(It may take 1-2 minutes)</p>
           </h1>
         </div>
       </>
@@ -115,13 +139,13 @@ function App() {
         Home Page
       </h2> */}
       <div className={`${appColors.bgColor} `}>
-        <div className="h-72 bg-none overflow-hidden rounded-b-3xl shadow-xl ">
+        <div className="aspect-h-1 aspect-w-3 sm:aspect-w-6 rounded-b-2xl sm:rounded-b-3xl w-full bg-none overflow-hidden  shadow-xl z-10">
           <img
             id="scrolling-image"
             src={HeroImages.img6}
             alt="Hero Image"
-            className="w-full h-full object-cover rounded-b-3xl"
-            style={{ objectPosition: "0px -350px" }}
+            className="w-full h-full object-cover object-center rounded-b-2xl sm:rounded-b-3xl z-10"
+            // style={{ objectPosition: "0px -350px" }}
           />
         </div>
         <div className={`flex flex-col sm:flex-row`}>
@@ -135,6 +159,7 @@ function App() {
             setRating={setRating}
             search={search}
             setSearch={setSearch}
+            windowWidth={windowWidth}
           ></LeftSidebar>
 
           <AllProducts

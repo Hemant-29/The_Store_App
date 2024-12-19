@@ -299,6 +299,9 @@ const ProductPage = (props) => {
   };
 
   const imageZoom = (e) => {
+    if (window.innerWidth <= 640) {
+      return;
+    }
     setDisplayZoom(true);
     setZoomX((100 * e.nativeEvent.offsetX) / e.target.offsetWidth);
     setZoomY((100 * e.nativeEvent.offsetY) / e.target.offsetHeight);
@@ -325,14 +328,11 @@ const ProductPage = (props) => {
               className="flex flex-col sm:flex-row"
             >
               {/* Image Section */}
-              <div className="relative w-fit h-fit sm:w-140 sm:sticky pb-6 pt-4 top-20 ">
+              <div className="relative w-fit h-fit sm:w-140 sm:sticky pb-6 pt-4 top-20 m-3">
                 <img
                   onMouseMove={imageZoom}
                   onMouseLeave={() => {
                     setDisplayZoom(false);
-                  }}
-                  onMouseEnter={() => {
-                    setDisplayZoom(true);
                   }}
                   src={productData.image[imageIndex]}
                   className="w-full h-full object-contain shadow-lg cursor-magnifier"
@@ -572,7 +572,7 @@ const ProductPage = (props) => {
 
             <div
               id="product_page_details-section"
-              className="flex gap-6 p-6 justify-between mx-4 flex-col sm:flex-row"
+              className="flex gap-6 p-6 justify-between mx-4 flex-col md:flex-row"
             >
               {/* Features Section */}
               <div className="flex-1 shadow-lg rounded-lg">
