@@ -3,6 +3,7 @@ import axios from "axios";
 import SellerTitlebar from "../../components/SellerTitlebar";
 import Footer from "../../components/Footer";
 import { colorContext, urlContext } from "../../../context/context";
+import WarningCard from "../../components/WarningCard";
 
 const ListProduct = () => {
   const appColors = useContext(colorContext);
@@ -10,6 +11,8 @@ const ListProduct = () => {
 
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [message, setMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [product, setProduct] = useState({
     name: "",
@@ -81,12 +84,15 @@ const ListProduct = () => {
       );
 
       if (response) {
+        if (response.data.msg) setMessage(response.data.msg);
+        if (response.data.error) setErrorMessage(response.data.error);
         console.log(
           "Product's image upload response:",
           response.data.msg || response
         );
       }
     } catch (error) {
+      if (error.response.data.error) setErrorMessage(error.response.data.error);
       console.log(
         "An error occured:",
         error.response.data ||
@@ -108,12 +114,16 @@ const ListProduct = () => {
 
       if (response) {
         console.log("Products upload response:", response.data || response);
+        if (response.data.msg) setMessage(response.data.msg);
+        if (response.data.error) setErrorMessage(response.data.error);
+
         if (response.data.product._id) {
           const productId = response.data.product._id;
           uploadProductImage(productId);
         }
       }
     } catch (error) {
+      if (error.response.data.error) setErrorMessage(error.response.data.error);
       console.log(
         "An error occured:",
         error.response.data || error || "Error Uploading the product details"
@@ -228,17 +238,17 @@ const ListProduct = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      //   const response = await axios.post("/api/products", product);
-      //   console.log(response.data);
-      console.log("Data sent to the api:", product);
-      alert("Product added successfully");
-    } catch (error) {
-      console.error("There was an error adding the product!", error);
-    }
-  };
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     //   const response = await axios.post("/api/products", product);
+  //     //   console.log(response.data);
+  //     console.log("Data sent to the api:", product);
+  //     alert("Product added successfully");
+  //   } catch (error) {
+  //     console.error("There was an error adding the product!", error);
+  //   }
+  // };
 
   return (
     <>
@@ -622,6 +632,25 @@ const ListProduct = () => {
             </button>
           </div>
         </form>
+        <div
+          id="list-product_warning-section"
+          className="flex w-full justify-center"
+        >
+          {message && (
+            <WarningCard
+              type={"positive"}
+              message={message}
+              onclick={() => setMessage(false)}
+            ></WarningCard>
+          )}
+          {errorMessage && (
+            <WarningCard
+              type={"negative"}
+              message={errorMessage}
+              onclick={() => setErrorMessage(false)}
+            ></WarningCard>
+          )}
+        </div>
       </div>
       <Footer></Footer>
     </>

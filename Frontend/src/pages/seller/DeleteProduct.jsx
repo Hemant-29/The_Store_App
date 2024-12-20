@@ -10,7 +10,6 @@ const DeleteProduct = () => {
   const [products, setProducts] = useState([]);
   const [detailedProducts, setDetailedProducts] = useState([]);
 
-
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -84,11 +83,12 @@ const DeleteProduct = () => {
   return (
     <>
       <SellerTitlebar></SellerTitlebar>
-      <main className={`${appColors.bgColor} text-${appColors.fgColor} p-8 h-screen`}>
+      <main
+        className={`${appColors.bgColor} text-${appColors.fgColor} p-8 min-h-screen`}
+      >
         {loading && <p className="text-4xl text-center">Loading...</p>}
         {!loading && (
           <>
-            
             <h1 className="my-5 text-3xl">Your Products</h1>
             <div className={`flex flex-col items-center gap-4 `}>
               {message && (
@@ -110,7 +110,6 @@ const DeleteProduct = () => {
                 className="flex flex-wrap gap-8 flex-col sm:flex-row items-center"
               >
                 {detailedProducts.map((product, index) => (
-                  
                   <div className="product-card">
                     <ProductsCard
                       key={index}

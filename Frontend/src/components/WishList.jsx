@@ -84,7 +84,7 @@ const WishList = () => {
                         className="flex flex-col md:flex-row font-normal text-xl w-full shadow-none items-center"
                       >
                         <div className="sm:px-8">
-                          <div className="w-full aspect-1">
+                          <div className="w-full xs:w-72 aspect-1">
                             <img
                               src={product.image[0]}
                               alt="product image"
@@ -106,7 +106,6 @@ const WishList = () => {
                 })
               ) : (
                 <h2 className="text-lg font-normal ml-10">
-                  {" "}
                   This list has no items
                 </h2>
               )}

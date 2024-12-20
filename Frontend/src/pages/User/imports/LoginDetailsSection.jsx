@@ -74,7 +74,7 @@ const LoginDetailsSection = ({ TitleBox, PropertyBox, User }) => {
         <>
           <form onSubmit={submitFunction} className="space-y-3 mt-2">
             {/* Username Field */}
-            <div className="flex items-center">
+            <div className="flex flex-col xs:flex-row items-center">
               <p className="font-semibold min-w-32 text-center">
                 {"Username"} :
               </p>
@@ -87,7 +87,10 @@ const LoginDetailsSection = ({ TitleBox, PropertyBox, User }) => {
             </div>
 
             {/* Password Field */}
-            <div className="flex items-center" key={"password"}>
+            <div
+              className="flex flex-col xs:flex-row items-center"
+              key={"password"}
+            >
               <p className="font-semibold min-w-32 text-center">
                 {"Password"} :
               </p>

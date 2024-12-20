@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import darkModeIcon from "../assets/darkMode(old).png";
+import darkModeIcon from "../assets/darkModeIcon.png";
 import lightModeIcon from "../assets/lightMode.png";
 import { colorContext } from "../../context/context";
 import { Link } from "react-router-dom";

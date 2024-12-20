@@ -45,9 +45,7 @@ const Main = () => {
   const [footerColor, setFooterColor] = useState("");
   const [titlebarColor, setTitlebarColor] = useState("");
   const [headingbarColor, setHeadingbarColor] = useState("");
-  
 
-  
   useEffect(() => {
     if (appTheme == "light") {
       setBgColor("bg-slate-50");

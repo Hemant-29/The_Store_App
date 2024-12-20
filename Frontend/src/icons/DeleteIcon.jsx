@@ -5,7 +5,7 @@ const DeleteIcon = () => {
     <>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        xml:space="preserve"
+        xmlSpace="preserve"
         viewBox="0 0 40 40"
         id="recycle-bin"
         width={25}

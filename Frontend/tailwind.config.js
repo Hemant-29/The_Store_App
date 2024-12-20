@@ -42,6 +42,10 @@ module.exports = {
       width: {
         '140': '35rem',
       },
+      // Extended Screen widths
+      screens: {
+        'xs': '460px', // Custom breakpoint for extra small screens
+      },
       // Extended box shadow properties
       boxShadow: {
         'even-sm': '0 0px 6px 2px rgba(0, 0, 0, 0.1)',
