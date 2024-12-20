@@ -70,7 +70,7 @@ const WishList = () => {
         {/* Show Wishlist */}
         {wishlist &&
           wishlist.map((list) => (
-            <div className="flex flex-col p-10 text-2xl font-semibold border-2 rounded-lg mx-4 mt-20">
+            <div className="flex flex-col p-4 sm:p-10 text-2xl font-semibold border-2 rounded-lg mx-4 mt-20">
               <h2 className="my-8">
                 {list.listName.charAt(0).toUpperCase() + list.listName.slice(1)}
               </h2>
@@ -81,15 +81,14 @@ const WishList = () => {
                     <div className="w-full bg-gray-200 p-8 bg-opacity-70 text-black shadow-md">
                       <Link
                         to={`/product/${product._id}`}
-                        className="flex flex-col md:flex-row font-normal text-xl w-fit shadow-none items-center"
+                        className="flex flex-col md:flex-row font-normal text-xl w-full shadow-none items-center"
                       >
-                        <div className="px-8">
-                          <div className="w-72 h-72">
+                        <div className="sm:px-8">
+                          <div className="w-full aspect-1">
                             <img
                               src={product.image[0]}
                               alt="product image"
-                              width={"300px"}
-                              className="object-cover w-full h-full rounded-lg"
+                              className="object-cover h-full rounded-lg"
                             />
                           </div>
                         </div>

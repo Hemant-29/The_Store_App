@@ -95,7 +95,7 @@ const TitleBar = () => {
   useEffect(() => {
     const handleResize = debounce(() => {
       setWindowWidth(window.innerWidth);
-    }, 200); // Adjust the delay as needed
+    }, 20); // Adjust the delay as needed
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -290,12 +290,10 @@ const TitleBar = () => {
         (loggedIn ? (
           <>
             <div
-              id="titlebar-menu-loggedin"
               className={`flex flex-col gap-5 sm:hidden p-6 pt-10 fixed top-5 mt-3 shadow-md w-full px-5 backdrop-filter rounded-b-2xl ${appColors.titlebarColor} text-${appColors.fgColor} -mb-2 z-30 animate-slideDownExpand`}
             >
               <Link
                 to="/user/wishlist"
-                id="titlebar-wishlist"
                 className="text-lg font-medium"
                 onClick={underlineSelected}
               >
@@ -313,7 +311,6 @@ const TitleBar = () => {
               <Link
                 to="/user/cart"
                 className="text-lg font-medium"
-                id="titlebar-cart"
                 onClick={underlineSelected}
               >
                 <div className="flex justify-between items-center border border-gray-400 p-2 rounded-xl">
@@ -328,7 +325,6 @@ const TitleBar = () => {
 
               <Link
                 to="/user"
-                id="titlebar-user"
                 className="text-lg font-medium"
                 onClick={underlineSelected}
               >
@@ -349,11 +345,9 @@ const TitleBar = () => {
         ) : (
           <>
             <div
-              id="titlebar-menu-loggedout"
               className={`flex flex-col gap-5 sm:hidden p-6 pt-10 fixed top-5 mt-3 shadow-md w-full px-5 backdrop-filter rounded-b-2xl ${appColors.titlebarColor} text-${appColors.fgColor} -mb-2 z-30 animate-slideDownExpand`}
             >
               <Link
-                id="titlebar-login"
                 to="/login"
                 className={`text-lg font-medium sm:ml-auto p-3 border border-gray-400 rounded-xl`}
                 onClick={underlineSelected}
@@ -362,7 +356,6 @@ const TitleBar = () => {
               </Link>
 
               <Link
-                id="titlebar-signup"
                 to="/signup"
                 className={`text-lg font-medium p-3 decoration-4 underline-offset-8 border border-gray-400 rounded-xl`}
                 onClick={underlineSelected}

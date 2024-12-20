@@ -49,7 +49,7 @@ function App() {
     };
   }, []);
 
-  localStorage.setItem("backendLoading", false);
+  localStorage.setItem("backendLoading", true);
   // Check backend health status
   useEffect(() => {
     const checkBackendHealth = async () => {
